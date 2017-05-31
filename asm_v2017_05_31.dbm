@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.8.2" last-position="0,0" last-zoom="1"
+	 default-owner="postgres">
+<database name="asm_v2017-05-02a">
+</database>
+
+<schema name="public" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<schema name="asm" rect-visible="true" fill-color="#aaff7f">
+	<role name="postgres"/>
+</schema>
+
+<table name="AssetLine">
+	<schema name="asm"/>
+	<role name="postgres"/>
+	<comment><![CDATA[portaali, aita, suojatie, maalaus]]></comment>
+	<position x="60" y="220"/>
+	<column name="gid">
+		<type name="serial"/>
+	</column>
+	<column name="name">
+		<type name="varchar"/>
+	</column>
+	<column name="geom">
+		<type name="geometry" spatial-type="LINESTRING" variation="1" srid="3879"/>
+	</column>
+	<column name="AssetLineClass" not-null="true">
+		<type name="smallint"/>
+	</column>
+</table>
+
+<table name="AssetPoint">
+	<schema name="asm"/>
+	<role name="postgres"/>
+	<position x="60" y="320"/>
+	<column name="gid">
+		<type name="serial"/>
+	</column>
+	<column name="name">
+		<type name="varchar"/>
+	</column>
+	<column name="geom">
+		<type name="geometry" spatial-type="POINT" variation="1" srid="3879"/>
+	</column>
+</table>
+
+<table name="codeInfra2017">
+	<schema name="asm"/>
+	<role name="postgres"/>
+	<position x="440" y="100"/>
+	<column name="code">
+		<type name="char" length="5"/>
+	</column>
+	<column name="name">
+		<type name="varchar"/>
+	</column>
+	<initial-data>
+<![CDATA[code•name⸣
+L1.1•2-ajorataiset⸣
+L1.2•Valtatiet⸣
+L1.3•Kantatiet⸣
+L1.4•Seututiet⸣
+L2.1•Erilliset jalankulku- ja pyöräilyväylät⸣
+L3.1•Levähdysalueet]]>
+	</initial-data>
+</table>
+
+<schema name="Maintainers" rect-visible="true" fill-color="#e1e1e1">
+	<role name="postgres"/>
+</schema>
+
+<table name="Maintainer">
+	<schema name="&quot;Maintainers&quot;"/>
+	<role name="postgres"/>
+	<position x="840" y="63"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="maintainer_uuid" not-null="true">
+		<type name="uuid"/>
+	</column>
+	<column name="name">
+		<type name="varchar"/>
+	</column>
+	<column name="VAT_code">
+		<type name="varchar"/>
+	</column>
+</table>
+
+<table name="AssetArea">
+	<schema name="asm"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Ajoväylät]]></comment>
+	<position x="60" y="100"/>
+	<column name="gid" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="name">
+		<type name="varchar"/>
+	</column>
+	<column name="geom">
+		<type name="geometry" spatial-type="POLYGON" variation="1" srid="3879"/>
+	</column>
+	<column name="AssetAreaClassification">
+		<type name="asm.&quot;codeInfra2017&quot;"/>
+	</column>
+	<column name="area">
+		<type name="double precision"/>
+	</column>
+	<column name="MainMaintainer">
+		<type name="&quot;Maintainers&quot;.&quot;Maintainer&quot;"/>
+		<comment><![CDATA[Area maintainer]]></comment>
+	</column>
+	<constraint name="AssetArea_L1_pk" type="pk-constr" table="asm.&quot;AssetArea&quot;">
+		<columns names="gid" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<textbox name="DBTitle" bold="true" font-size="12">
+	<position x="40" y="20"/>
+	<comment><![CDATA[Asset Management - v0.01]]></comment>
+</textbox>
+
+<table name="Surface">
+	<schema name="asm"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Päällyste]]></comment>
+	<position x="60" y="400"/>
+	<column name="gid">
+		<type name="serial"/>
+	</column>
+	<column name="geom">
+		<type name="geometry" spatial-type="MULTIPOLYGON" variation="0" srid="3879"/>
+	</column>
+	<column name="material">
+		<type name="smallint"/>
+	</column>
+</table>
+
+<table name="RoadSurfaceMarking">
+	<schema name="asm"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tiemerkinnät - maalatut tienpinnassa]]></comment>
+	<position x="60" y="500"/>
+	<column name="gid">
+		<type name="serial"/>
+	</column>
+	<column name="geom_poly">
+		<type name="geometry" spatial-type="MULTIPOLYGON" variation="1" srid="3879"/>
+	</column>
+	<column name="geom_line">
+		<type name="geometry" spatial-type="MULTILINESTRING" variation="1" srid="3879"/>
+	</column>
+	<column name="geom_point">
+		<type name="geometry" spatial-type="MULTIPOINT" variation="1" srid="3879"/>
+	</column>
+	<column name="RoadMarkingCode">
+		<type name="smallint"/>
+	</column>
+	<column name="startDate">
+		<type name="date"/>
+	</column>
+	<column name="endDate">
+		<type name="date"/>
+	</column>
+</table>
+
+<table name="Furniture">
+	<schema name="asm"/>
+	<role name="postgres"/>
+	<position x="440" y="540"/>
+	<column name="gid">
+		<type name="serial"/>
+	</column>
+	<column name="type">
+		<type name="varchar"/>
+	</column>
+	<column name="geom">
+		<type name="geometry" spatial-type="POINT" variation="0" srid="3879"/>
+	</column>
+	<column name="Model">
+		<type name="varchar"/>
+	</column>
+	<column name="Brand">
+		<type name="varchar"/>
+	</column>
+</table>
+
+<usertype name="asfalttilaatu" configuration="enumeration">
+	<schema name="asm"/>
+	<role name="postgres"/>
+	<enumeration values="A,AB"/>
+</usertype>
+
+</dbmodel>
