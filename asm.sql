@@ -341,23 +341,12 @@ CREATE TYPE asm.vegetationtype AS
 ALTER TYPE asm.vegetationtype OWNER TO "asmAdmin";
 -- ddl-end --
 
--- object: "Equipments"."Equipment" | type: TABLE --
--- DROP TABLE IF EXISTS "Equipments"."Equipment" CASCADE;
-CREATE TABLE "Equipments"."Equipment"(
-	gid serial NOT NULL,
-	type smallint,
-	model varchar,
-	brand varchar,
-	"equipmentGroup" asm.equipmentgroup,
-	"installDate" date,
-	installer "Actors"."Maintainer",
-	"gid_InfraPart" integer,
-	"gid_Asset" integer,
-	CONSTRAINT "Furniture_pk" PRIMARY KEY (gid)
-
-);
+-- object: "Equipments".equipmentype | type: TYPE --
+-- DROP TYPE IF EXISTS "Equipments".equipmentype CASCADE;
+CREATE TYPE "Equipments".equipmentype AS
+ ENUM ('billboard','digital','statue','graffiti','flagpole','sandbox','directionsign','fence','bank','wall','other');
 -- ddl-end --
-ALTER TABLE "Equipments"."Equipment" OWNER TO "asmAdmin";
+ALTER TYPE "Equipments".equipmentype OWNER TO "asmAdmin";
 -- ddl-end --
 
 -- object: "UseType_fk" | type: CONSTRAINT --
@@ -416,27 +405,24 @@ CREATE TABLE "Actors"."Possessor"(
 ALTER TABLE "Actors"."Possessor" OWNER TO "asmAdmin";
 -- ddl-end --
 
--- object: "Equipments"."RoadSurfaceMarking" | type: TABLE --
--- DROP TABLE IF EXISTS "Equipments"."RoadSurfaceMarking" CASCADE;
-CREATE TABLE "Equipments"."RoadSurfaceMarking"(
+-- object: "Equipments"."Equipment" | type: TABLE --
+-- DROP TABLE IF EXISTS "Equipments"."Equipment" CASCADE;
+CREATE TABLE "Equipments"."Equipment"(
 	gid serial NOT NULL,
-	"roadMarkingCode" smallint,
--- 	type smallint,
--- 	model varchar,
--- 	brand varchar,
--- 	"equipmentGroup" asm.equipmentgroup,
--- 	"installDate" date,
--- 	installer "Actors"."Maintainer",
--- 	"gid_InfraPart" integer,
--- 	"gid_Asset" integer,
-	CONSTRAINT "RoadSurfaceMarking_pk" PRIMARY KEY (gid)
+	type "Equipments".equipmentype,
+	model varchar,
+	brand varchar,
+	"equipmentGroup" asm.equipmentgroup,
+	"installDate" date,
+	installer "Actors"."Maintainer",
+	material smallint,
+	"gid_InfraPart" integer,
+	"gid_Asset" integer,
+	CONSTRAINT "Furniture_pk" PRIMARY KEY (gid)
 
-) INHERITS("Equipments"."Equipment")
-;
+);
 -- ddl-end --
-COMMENT ON TABLE "Equipments"."RoadSurfaceMarking" IS 'Tiemerkinn�t - maalatut tienpinnassa';
--- ddl-end --
-ALTER TABLE "Equipments"."RoadSurfaceMarking" OWNER TO "asmAdmin";
+ALTER TABLE "Equipments"."Equipment" OWNER TO "asmAdmin";
 -- ddl-end --
 
 -- object: "Media"."Media" | type: TABLE --
@@ -555,24 +541,22 @@ ALTER TABLE "Media"."AssetPhotoLink" ADD CONSTRAINT "AssetPhotoLink_uq" UNIQUE (
 -- DROP TABLE IF EXISTS "Equipments"."UrbanRunoffEquipment" CASCADE;
 CREATE TABLE "Equipments"."UrbanRunoffEquipment"(
 	id serial NOT NULL,
-	type smallint,
 	"flowDirection" smallint,
-	material varchar,
 	pool bool,
 -- 	gid integer NOT NULL,
+-- 	type "Equipments".equipmentype,
 -- 	model varchar,
 -- 	brand varchar,
 -- 	"equipmentGroup" asm.equipmentgroup,
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
+-- 	material smallint,
 -- 	"gid_InfraPart" integer,
 -- 	"gid_Asset" integer,
 	CONSTRAINT "UrbanRunoffEqupiment_pk" PRIMARY KEY (id)
 
 ) INHERITS("Equipments"."Equipment")
 ;
--- ddl-end --
-COMMENT ON COLUMN "Equipments"."UrbanRunoffEquipment".type IS 'drum, pipe, ditch (rumpu,putki,avo-oja)';
 -- ddl-end --
 COMMENT ON COLUMN "Equipments"."UrbanRunoffEquipment"."flowDirection" IS 'virtaussuunta';
 -- ddl-end --
@@ -593,12 +577,13 @@ ALTER TYPE "Equipments".mountingtype OWNER TO "asmAdmin";
 -- DROP TABLE IF EXISTS "Equipments"."TrafficCalming" CASCADE;
 CREATE TABLE "Equipments"."TrafficCalming"(
 	gid serial NOT NULL,
-	type smallint,
+-- 	type "Equipments".equipmentype,
 -- 	model varchar,
 -- 	brand varchar,
 -- 	"equipmentGroup" asm.equipmentgroup,
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
+-- 	material smallint,
 -- 	"gid_InfraPart" integer,
 -- 	"gid_Asset" integer,
 	CONSTRAINT "TrafficCalming_pk" PRIMARY KEY (gid)
@@ -728,38 +713,28 @@ COMMENT ON TABLE asm."SimplifiedCode" IS 'Simplified codes based on Infra codes'
 ALTER TABLE asm."SimplifiedCode" OWNER TO "asmAdmin";
 -- ddl-end --
 
--- object: "Equipments"."TrafficSign" | type: TABLE --
--- DROP TABLE IF EXISTS "Equipments"."TrafficSign" CASCADE;
-CREATE TABLE "Equipments"."TrafficSign"(
+-- object: "Equipments"."RoadSurfaceMarking" | type: TABLE --
+-- DROP TABLE IF EXISTS "Equipments"."RoadSurfaceMarking" CASCADE;
+CREATE TABLE "Equipments"."RoadSurfaceMarking"(
 	gid serial NOT NULL,
-	signtype smallint,
-	signtext varchar,
-	"viewingAngle" smallint,
-	"horizontalPlace" smallint,
-	"verticalPlace" smallint,
-	"gid_Mounting" integer,
--- 	type smallint,
+	"roadMarkingCode" smallint,
+-- 	type "Equipments".equipmentype,
 -- 	model varchar,
 -- 	brand varchar,
 -- 	"equipmentGroup" asm.equipmentgroup,
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
+-- 	material smallint,
 -- 	"gid_InfraPart" integer,
 -- 	"gid_Asset" integer,
-	CONSTRAINT "TrafficSign_pk" PRIMARY KEY (gid)
+	CONSTRAINT "RoadSurfaceMarking_pk" PRIMARY KEY (gid)
 
 ) INHERITS("Equipments"."Equipment")
 ;
 -- ddl-end --
-COMMENT ON COLUMN "Equipments"."TrafficSign".signtype IS 'See http://www.liikennevirasto.fi/tieverkko/liikennemerkit#.WUEriR9Nzc-';
+COMMENT ON TABLE "Equipments"."RoadSurfaceMarking" IS 'Tiemerkinn�t - maalatut tienpinnassa';
 -- ddl-end --
-COMMENT ON COLUMN "Equipments"."TrafficSign"."viewingAngle" IS 'Viewing angle';
--- ddl-end --
-COMMENT ON COLUMN "Equipments"."TrafficSign"."horizontalPlace" IS 'Horiozontal order placement compared to other traffic signs mounted to same mounting';
--- ddl-end --
-COMMENT ON COLUMN "Equipments"."TrafficSign"."verticalPlace" IS 'Vertical order placement compared to other traffic signs mounted to same mounting';
--- ddl-end --
-ALTER TABLE "Equipments"."TrafficSign" OWNER TO "asmAdmin";
+ALTER TABLE "Equipments"."RoadSurfaceMarking" OWNER TO "asmAdmin";
 -- ddl-end --
 
 -- object: "Asset_fk" | type: CONSTRAINT --
@@ -1076,12 +1051,13 @@ CREATE TABLE "Equipments"."Mounting"(
 	gid serial NOT NULL,
 	"mountingType" "Equipments".mountingtype,
 	"gid_InfraPart" integer,
--- 	type smallint,
+-- 	type "Equipments".equipmentype,
 -- 	model varchar,
 -- 	brand varchar,
 -- 	"equipmentGroup" asm.equipmentgroup,
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
+-- 	material smallint,
 -- 	"gid_Asset" integer,
 	CONSTRAINT "LightPole_pk" PRIMARY KEY (gid)
 
@@ -1152,12 +1128,13 @@ CREATE TABLE "Equipments"."StreetLight"(
 	"lightTypeCode" varchar,
 	phase varchar,
 	"gid_Mounting" integer,
--- 	type smallint,
+-- 	type "Equipments".equipmentype,
 -- 	model varchar,
 -- 	brand varchar,
 -- 	"equipmentGroup" asm.equipmentgroup,
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
+-- 	material smallint,
 -- 	"gid_InfraPart" integer,
 -- 	"gid_Asset" integer,
 	CONSTRAINT "StreetLight_pk" PRIMARY KEY (gid)
@@ -1257,16 +1234,39 @@ COMMENT ON TABLE "Maintenance"."MaintenanceArea" IS 'The "cookie -cutter" table 
 ALTER TABLE "Maintenance"."MaintenanceArea" OWNER TO "asmAdmin";
 -- ddl-end --
 
--- object: "InfraPart_fk" | type: CONSTRAINT --
--- ALTER TABLE "Equipments"."Equipment" DROP CONSTRAINT IF EXISTS "InfraPart_fk" CASCADE;
-ALTER TABLE "Equipments"."Equipment" ADD CONSTRAINT "InfraPart_fk" FOREIGN KEY ("gid_InfraPart")
-REFERENCES asm."InfraPart" (gid) MATCH FULL
-ON DELETE SET NULL ON UPDATE CASCADE;
--- ddl-end --
+-- object: "Equipments"."TrafficSign" | type: TABLE --
+-- DROP TABLE IF EXISTS "Equipments"."TrafficSign" CASCADE;
+CREATE TABLE "Equipments"."TrafficSign"(
+	gid serial NOT NULL,
+	signtype smallint,
+	signtext varchar,
+	"viewingAngle" smallint,
+	"horizontalPlace" smallint,
+	"verticalPlace" smallint,
+	"gid_Mounting" integer,
+-- 	type "Equipments".equipmentype,
+-- 	model varchar,
+-- 	brand varchar,
+-- 	"equipmentGroup" asm.equipmentgroup,
+-- 	"installDate" date,
+-- 	installer "Actors"."Maintainer",
+-- 	material smallint,
+-- 	"gid_InfraPart" integer,
+-- 	"gid_Asset" integer,
+	CONSTRAINT "TrafficSign_pk" PRIMARY KEY (gid)
 
--- object: "Equipment_uq" | type: CONSTRAINT --
--- ALTER TABLE "Equipments"."Equipment" DROP CONSTRAINT IF EXISTS "Equipment_uq" CASCADE;
-ALTER TABLE "Equipments"."Equipment" ADD CONSTRAINT "Equipment_uq" UNIQUE ("gid_InfraPart");
+) INHERITS("Equipments"."Equipment")
+;
+-- ddl-end --
+COMMENT ON COLUMN "Equipments"."TrafficSign".signtype IS 'See http://www.liikennevirasto.fi/tieverkko/liikennemerkit#.WUEriR9Nzc-';
+-- ddl-end --
+COMMENT ON COLUMN "Equipments"."TrafficSign"."viewingAngle" IS 'Viewing angle';
+-- ddl-end --
+COMMENT ON COLUMN "Equipments"."TrafficSign"."horizontalPlace" IS 'Horiozontal order placement compared to other traffic signs mounted to same mounting';
+-- ddl-end --
+COMMENT ON COLUMN "Equipments"."TrafficSign"."verticalPlace" IS 'Vertical order placement compared to other traffic signs mounted to same mounting';
+-- ddl-end --
+ALTER TABLE "Equipments"."TrafficSign" OWNER TO "asmAdmin";
 -- ddl-end --
 
 -- object: "Asset_fk" | type: CONSTRAINT --
@@ -1360,12 +1360,13 @@ ALTER MATERIALIZED VIEW "Reports"."EquipmentList" OWNER TO "asmAdmin";
 -- DROP TABLE IF EXISTS "Equipments"."Furniture" CASCADE;
 CREATE TABLE "Equipments"."Furniture"(
 -- 	gid integer NOT NULL,
--- 	type smallint,
+-- 	type "Equipments".equipmentype,
 -- 	model varchar,
 -- 	brand varchar,
 -- 	"equipmentGroup" asm.equipmentgroup,
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
+-- 	material smallint,
 -- 	"gid_InfraPart" integer,
 -- 	"gid_Asset" integer,
 
@@ -1379,12 +1380,13 @@ ALTER TABLE "Equipments"."Furniture" OWNER TO "asmAdmin";
 -- DROP TABLE IF EXISTS "Equipments"."Advertisement" CASCADE;
 CREATE TABLE "Equipments"."Advertisement"(
 -- 	gid integer NOT NULL,
--- 	type smallint,
+-- 	type "Equipments".equipmentype,
 -- 	model varchar,
 -- 	brand varchar,
 -- 	"equipmentGroup" asm.equipmentgroup,
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
+-- 	material smallint,
 -- 	"gid_InfraPart" integer,
 -- 	"gid_Asset" integer,
 
@@ -1398,12 +1400,13 @@ ALTER TABLE "Equipments"."Advertisement" OWNER TO "asmAdmin";
 -- DROP TABLE IF EXISTS "Equipments"."Art" CASCADE;
 CREATE TABLE "Equipments"."Art"(
 -- 	gid integer NOT NULL,
--- 	type smallint,
+-- 	type "Equipments".equipmentype,
 -- 	model varchar,
 -- 	brand varchar,
 -- 	"equipmentGroup" asm.equipmentgroup,
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
+-- 	material smallint,
 -- 	"gid_InfraPart" integer,
 -- 	"gid_Asset" integer,
 
@@ -1417,12 +1420,13 @@ ALTER TABLE "Equipments"."Art" OWNER TO "asmAdmin";
 -- DROP TABLE IF EXISTS "Equipments"."Crossing" CASCADE;
 CREATE TABLE "Equipments"."Crossing"(
 	gid serial NOT NULL,
--- 	type smallint,
+-- 	type "Equipments".equipmentype,
 -- 	model varchar,
 -- 	brand varchar,
 -- 	"equipmentGroup" asm.equipmentgroup,
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
+-- 	material smallint,
 -- 	"gid_InfraPart" integer,
 -- 	"gid_Asset" integer,
 	CONSTRAINT "Crossing_pk" PRIMARY KEY (gid)
@@ -1437,12 +1441,13 @@ ALTER TABLE "Equipments"."Crossing" OWNER TO "asmAdmin";
 -- DROP TABLE IF EXISTS "Equipments"."Structure" CASCADE;
 CREATE TABLE "Equipments"."Structure"(
 -- 	gid integer NOT NULL,
--- 	type smallint,
+-- 	type "Equipments".equipmentype,
 -- 	model varchar,
 -- 	brand varchar,
 -- 	"equipmentGroup" asm.equipmentgroup,
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
+-- 	material smallint,
 -- 	"gid_InfraPart" integer,
 -- 	"gid_Asset" integer,
 
@@ -1456,12 +1461,13 @@ ALTER TABLE "Equipments"."Structure" OWNER TO "asmAdmin";
 -- DROP TABLE IF EXISTS "Equipments"."TrashEquipment" CASCADE;
 CREATE TABLE "Equipments"."TrashEquipment"(
 -- 	gid integer NOT NULL,
--- 	type smallint,
+-- 	type "Equipments".equipmentype,
 -- 	model varchar,
 -- 	brand varchar,
 -- 	"equipmentGroup" asm.equipmentgroup,
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
+-- 	material smallint,
 -- 	"gid_InfraPart" integer,
 -- 	"gid_Asset" integer,
 
@@ -1475,12 +1481,13 @@ ALTER TABLE "Equipments"."TrashEquipment" OWNER TO "asmAdmin";
 -- DROP TABLE IF EXISTS "Equipments"."PlayGroundEquipment" CASCADE;
 CREATE TABLE "Equipments"."PlayGroundEquipment"(
 -- 	gid integer NOT NULL,
--- 	type smallint,
+-- 	type "Equipments".equipmentype,
 -- 	model varchar,
 -- 	brand varchar,
 -- 	"equipmentGroup" asm.equipmentgroup,
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
+-- 	material smallint,
 -- 	"gid_InfraPart" integer,
 -- 	"gid_Asset" integer,
 
@@ -1495,12 +1502,13 @@ ALTER TABLE "Equipments"."PlayGroundEquipment" OWNER TO "asmAdmin";
 CREATE TABLE "Equipments"."StreetSign"(
 	"gid_Mounting" integer,
 -- 	gid integer NOT NULL,
--- 	type smallint,
+-- 	type "Equipments".equipmentype,
 -- 	model varchar,
 -- 	brand varchar,
 -- 	"equipmentGroup" asm.equipmentgroup,
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
+-- 	material smallint,
 -- 	"gid_InfraPart" integer,
 -- 	"gid_Asset" integer,
 	CONSTRAINT "StreetSign_pk" PRIMARY KEY (gid)
@@ -1515,12 +1523,13 @@ ALTER TABLE "Equipments"."StreetSign" OWNER TO "asmAdmin";
 -- DROP TABLE IF EXISTS "Equipments"."Fence" CASCADE;
 CREATE TABLE "Equipments"."Fence"(
 -- 	gid integer NOT NULL,
--- 	type smallint,
+-- 	type "Equipments".equipmentype,
 -- 	model varchar,
 -- 	brand varchar,
 -- 	"equipmentGroup" asm.equipmentgroup,
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
+-- 	material smallint,
 -- 	"gid_InfraPart" integer,
 -- 	"gid_Asset" integer,
 
@@ -1546,12 +1555,13 @@ ALTER TABLE "Equipments"."TrafficSign" ADD CONSTRAINT "TrafficSign_uq" UNIQUE ("
 -- DROP TABLE IF EXISTS "Equipments"."StreetLightConductor" CASCADE;
 CREATE TABLE "Equipments"."StreetLightConductor"(
 -- 	gid integer NOT NULL,
--- 	type smallint,
+-- 	type "Equipments".equipmentype,
 -- 	model varchar,
 -- 	brand varchar,
 -- 	"equipmentGroup" asm.equipmentgroup,
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
+-- 	material smallint,
 -- 	"gid_InfraPart" integer,
 -- 	"gid_Asset" integer,
 
@@ -1565,12 +1575,13 @@ ALTER TABLE "Equipments"."StreetLightConductor" OWNER TO "asmAdmin";
 -- DROP TABLE IF EXISTS "Equipments"."StreetLightStation" CASCADE;
 CREATE TABLE "Equipments"."StreetLightStation"(
 -- 	gid integer NOT NULL,
--- 	type smallint,
+-- 	type "Equipments".equipmentype,
 -- 	model varchar,
 -- 	brand varchar,
 -- 	"equipmentGroup" asm.equipmentgroup,
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
+-- 	material smallint,
 -- 	"gid_InfraPart" integer,
 -- 	"gid_Asset" integer,
 
@@ -1584,12 +1595,13 @@ ALTER TABLE "Equipments"."StreetLightStation" OWNER TO "asmAdmin";
 -- DROP TABLE IF EXISTS "Equipments"."NoiseBarrier" CASCADE;
 CREATE TABLE "Equipments"."NoiseBarrier"(
 -- 	gid integer NOT NULL,
--- 	type smallint,
+-- 	type "Equipments".equipmentype,
 -- 	model varchar,
 -- 	brand varchar,
 -- 	"equipmentGroup" asm.equipmentgroup,
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
+-- 	material smallint,
 -- 	"gid_InfraPart" integer,
 -- 	"gid_Asset" integer,
 
@@ -1639,12 +1651,13 @@ ALTER TABLE asm."Vegetation" ADD CONSTRAINT "Vegetation_uq" UNIQUE ("gid_Asset")
 -- DROP TABLE IF EXISTS "Equipments"."TrafficLight" CASCADE;
 CREATE TABLE "Equipments"."TrafficLight"(
 -- 	gid integer NOT NULL,
--- 	type smallint,
+-- 	type "Equipments".equipmentype,
 -- 	model varchar,
 -- 	brand varchar,
 -- 	"equipmentGroup" asm.equipmentgroup,
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
+-- 	material smallint,
 -- 	"gid_InfraPart" integer,
 -- 	"gid_Asset" integer,
 
@@ -1665,6 +1678,26 @@ ALTER TABLE "Equipments"."TrafficLight" OWNER TO "asmAdmin";
 -- ALTER MATERIALIZED VIEW "Reports"."YearQuartalHistoryReport" OWNER TO "asmAdmin";
 -- -- ddl-end --
 -- 
+-- object: "InfraPart_fk" | type: CONSTRAINT --
+-- ALTER TABLE "Equipments"."Equipment" DROP CONSTRAINT IF EXISTS "InfraPart_fk" CASCADE;
+ALTER TABLE "Equipments"."Equipment" ADD CONSTRAINT "InfraPart_fk" FOREIGN KEY ("gid_InfraPart")
+REFERENCES asm."InfraPart" (gid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: "Equipment_uq" | type: CONSTRAINT --
+-- ALTER TABLE "Equipments"."Equipment" DROP CONSTRAINT IF EXISTS "Equipment_uq" CASCADE;
+ALTER TABLE "Equipments"."Equipment" ADD CONSTRAINT "Equipment_uq" UNIQUE ("gid_InfraPart");
+-- ddl-end --
+
+-- object: "Equipments".material | type: TYPE --
+-- DROP TYPE IF EXISTS "Equipments".material CASCADE;
+CREATE TYPE "Equipments".material AS
+ ENUM ('bush','metal','wood','plastic','other');
+-- ddl-end --
+ALTER TYPE "Equipments".material OWNER TO "asmAdmin";
+-- ddl-end --
+
 -- object: grant_c4e0e56a81 | type: PERMISSION --
 GRANT CREATE,USAGE
    ON SCHEMA asm

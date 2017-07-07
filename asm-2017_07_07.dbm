@@ -401,47 +401,11 @@ GRANT SELECT,INSERT,UPDATE
 	<enumeration values="tree,weed,bush,flowers"/>
 </usertype>
 
-<table name="Equipment">
+<usertype name="equipmentype" configuration="enumeration">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="656.667" y="1911.95"/>
-	<column name="gid" not-null="true">
-		<type name="serial"/>
-	</column>
-	<column name="type">
-		<type name="smallint"/>
-	</column>
-	<column name="model">
-		<type name="varchar"/>
-	</column>
-	<column name="brand">
-		<type name="varchar"/>
-	</column>
-	<column name="equipmentGroup">
-		<type name="asm.equipmentgroup"/>
-	</column>
-	<column name="installDate">
-		<type name="date"/>
-	</column>
-	<column name="installer">
-		<type name="&quot;Actors&quot;.&quot;Maintainer&quot;"/>
-	</column>
-	<constraint name="Furniture_pk" type="pk-constr" table="&quot;Equipments&quot;.&quot;Equipment&quot;">
-		<columns names="gid" ref-type="src-columns"/>
-	</constraint>
-
-	<customidxs object-type="column">
-		<object name="gid_Asset" index="8"/>
-		<object name="gid_InfraPart" index="7"/>
-	</customidxs>
-
-	<customidxs object-type="constraint">
-		<object name="Asset_fk" index="3"/>
-		<object name="Equipment_uq" index="2"/>
-		<object name="Equipment_uq1" index="4"/>
-		<object name="InfraPart_fk" index="1"/>
-	</customidxs>
-</table>
+	<enumeration values="billboard,digital,statue,graffiti,flagpole,sandbox,directionsign,fence,bank,wall,other"/>
+</usertype>
 
 <relationship name="RoadPart_has_one_UseType" type="rel11"
 	 src-col-pattern="{sc}_{st}"
@@ -506,20 +470,49 @@ GRANT SELECT,INSERT,UPDATE
 	</constraint>
 </table>
 
-<table name="RoadSurfaceMarking">
+<table name="Equipment">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<comment><![CDATA[Tiemerkinn�t - maalatut tienpinnassa]]></comment>
-	<position x="56.6667" y="2207.67"/>
+	<position x="696.667" y="1968.62"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
-	<column name="roadMarkingCode">
+	<column name="type">
+		<type name="&quot;Equipments&quot;.equipmentype"/>
+	</column>
+	<column name="model">
+		<type name="varchar"/>
+	</column>
+	<column name="brand">
+		<type name="varchar"/>
+	</column>
+	<column name="equipmentGroup">
+		<type name="asm.equipmentgroup"/>
+	</column>
+	<column name="installDate">
+		<type name="date"/>
+	</column>
+	<column name="installer">
+		<type name="&quot;Actors&quot;.&quot;Maintainer&quot;"/>
+	</column>
+	<column name="material">
 		<type name="smallint"/>
 	</column>
-	<constraint name="RoadSurfaceMarking_pk" type="pk-constr" table="&quot;Equipments&quot;.&quot;RoadSurfaceMarking&quot;">
+	<constraint name="Furniture_pk" type="pk-constr" table="&quot;Equipments&quot;.&quot;Equipment&quot;">
 		<columns names="gid" ref-type="src-columns"/>
 	</constraint>
+
+	<customidxs object-type="column">
+		<object name="gid_Asset" index="9"/>
+		<object name="gid_InfraPart" index="8"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="Asset_fk" index="3"/>
+		<object name="Equipment_uq" index="2"/>
+		<object name="Equipment_uq1" index="4"/>
+		<object name="InfraPart_fk" index="1"/>
+	</customidxs>
 </table>
 
 <schema name="Media" rect-visible="true" fill-color="#5500ff">
@@ -529,7 +522,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="Media">
 	<schema name="&quot;Media&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1838.33" y="1566"/>
+	<position x="1926.67" y="1569.33"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -611,7 +604,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="AssetPhotoLink">
 	<schema name="&quot;Media&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1838.33" y="1423"/>
+	<position x="1926.67" y="1426.33"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -632,20 +625,13 @@ GRANT SELECT,INSERT,UPDATE
 <table name="UrbanRunoffEquipment">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1450" y="1953"/>
+	<position x="1465" y="1981.33"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
-	</column>
-	<column name="type">
-		<type name="smallint"/>
-		<comment><![CDATA[drum, pipe, ditch (rumpu,putki,avo-oja)]]></comment>
 	</column>
 	<column name="flowDirection">
 		<type name="smallint"/>
 		<comment><![CDATA[virtaussuunta]]></comment>
-	</column>
-	<column name="material">
-		<type name="varchar"/>
 	</column>
 	<column name="pool">
 		<type name="bool"/>
@@ -665,12 +651,9 @@ GRANT SELECT,INSERT,UPDATE
 <table name="TrafficCalming">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="36.6667" y="1887.67"/>
+	<position x="28.3333" y="1861"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
-	</column>
-	<column name="type">
-		<type name="smallint"/>
 	</column>
 	<constraint name="TrafficCalming_pk" type="pk-constr" table="&quot;Equipments&quot;.&quot;TrafficCalming&quot;">
 		<columns names="gid" ref-type="src-columns"/>
@@ -831,44 +814,20 @@ GRANT SELECT,INSERT,UPDATE
 	</constraint>
 </table>
 
-<table name="TrafficSign">
+<table name="RoadSurfaceMarking">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1430" y="2333"/>
+	<comment><![CDATA[Tiemerkinn�t - maalatut tienpinnassa]]></comment>
+	<position x="48.3333" y="2221"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
-	<column name="signtype">
+	<column name="roadMarkingCode">
 		<type name="smallint"/>
-		<comment><![CDATA[See http://www.liikennevirasto.fi/tieverkko/liikennemerkit#.WUEriR9Nzc-]]></comment>
 	</column>
-	<column name="signtext">
-		<type name="varchar"/>
-	</column>
-	<column name="viewingAngle">
-		<type name="smallint"/>
-		<comment><![CDATA[Viewing angle]]></comment>
-	</column>
-	<column name="horizontalPlace">
-		<type name="smallint"/>
-		<comment><![CDATA[Horiozontal order placement compared to other traffic signs mounted to same mounting]]></comment>
-	</column>
-	<column name="verticalPlace">
-		<type name="smallint"/>
-		<comment><![CDATA[Vertical order placement compared to other traffic signs mounted to same mounting]]></comment>
-	</column>
-	<constraint name="TrafficSign_pk" type="pk-constr" table="&quot;Equipments&quot;.&quot;TrafficSign&quot;">
+	<constraint name="RoadSurfaceMarking_pk" type="pk-constr" table="&quot;Equipments&quot;.&quot;RoadSurfaceMarking&quot;">
 		<columns names="gid" ref-type="src-columns"/>
 	</constraint>
-
-	<customidxs object-type="column">
-		<object name="gid_Mounting" index="6"/>
-	</customidxs>
-
-	<customidxs object-type="constraint">
-		<object name="Mounting_fk" index="2"/>
-		<object name="TrafficSign_uq" index="1"/>
-	</customidxs>
 </table>
 
 <relationship name="InfraPart_has_one_Asset" type="rel11"
@@ -1354,7 +1313,7 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 <table name="Symbol">
 	<schema name="&quot;Media&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1838.33" y="1726"/>
+	<position x="1926.67" y="1729.33"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -1425,14 +1384,45 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 	</constraint>
 </table>
 
-<relationship name="Equipment_has_one_InfraPart" type="rel11"
-	 src-col-pattern="{sc}_{st}"
-	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
-	 src-fk-pattern="{st}_fk"
-	 custom-color="#f55d66"
-	 src-table="asm.&quot;InfraPart&quot;"
-	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"
-	 src-required="false" dst-required="false"/>
+<table name="TrafficSign">
+	<schema name="&quot;Equipments&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="1441.67" y="2361.33"/>
+	<column name="gid" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="signtype">
+		<type name="smallint"/>
+		<comment><![CDATA[See http://www.liikennevirasto.fi/tieverkko/liikennemerkit#.WUEriR9Nzc-]]></comment>
+	</column>
+	<column name="signtext">
+		<type name="varchar"/>
+	</column>
+	<column name="viewingAngle">
+		<type name="smallint"/>
+		<comment><![CDATA[Viewing angle]]></comment>
+	</column>
+	<column name="horizontalPlace">
+		<type name="smallint"/>
+		<comment><![CDATA[Horiozontal order placement compared to other traffic signs mounted to same mounting]]></comment>
+	</column>
+	<column name="verticalPlace">
+		<type name="smallint"/>
+		<comment><![CDATA[Vertical order placement compared to other traffic signs mounted to same mounting]]></comment>
+	</column>
+	<constraint name="TrafficSign_pk" type="pk-constr" table="&quot;Equipments&quot;.&quot;TrafficSign&quot;">
+		<columns names="gid" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="gid_Mounting" index="6"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="Mounting_fk" index="2"/>
+		<object name="TrafficSign_uq" index="1"/>
+	</customidxs>
+</table>
 
 <relationship name="Equipment_has_one_Asset" type="rel11"
 	 src-col-pattern="{sc}_{st}"
@@ -1595,22 +1585,10 @@ equipasset."addressNumber"]]></expression>
 	</constraint>
 </table>
 
-<relationship name="UrbanRunoffEquipment_inherits_Equipment" type="relgen"
-	 pk-pattern="{dt}_pk"
-	 custom-color="#06e809"
-	 src-table="&quot;Equipments&quot;.&quot;UrbanRunoffEquipment&quot;"
-	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"/>
-
 <relationship name="Crossing_inherits_Equipment" type="relgen"
 	 pk-pattern="{dt}_pk"
 	 custom-color="#6aa6b5"
 	 src-table="&quot;Equipments&quot;.&quot;Crossing&quot;"
-	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"/>
-
-<relationship name="TrafficCalming_inherits_Equipment" type="relgen"
-	 pk-pattern="{dt}_pk"
-	 custom-color="#4858ce"
-	 src-table="&quot;Equipments&quot;.&quot;TrafficCalming&quot;"
 	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"/>
 
 <table name="Structure">
@@ -1793,7 +1771,7 @@ equipasset."addressNumber"]]></expression>
 <table name="TrafficLight">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1450" y="2173"/>
+	<position x="1455" y="2198"/>
 </table>
 
 <relationship name="TrafficLight_inherits_Equipment" type="relgen"
@@ -1814,6 +1792,33 @@ equipasset."addressNumber"]]></expression>
 	 src-table="&quot;Reports&quot;.&quot;YearQuartalHistoryReport&quot;"
 	 dst-table="&quot;History&quot;.&quot;HistoryEvent&quot;"
 	 src-required="false" dst-required="false"/>
+
+<relationship name="Equipment_has_one_InfraPart" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#f55d66"
+	 src-table="asm.&quot;InfraPart&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="UrbanRunoffEquipment_inherits_Equipment" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#37daf1"
+	 src-table="&quot;Equipments&quot;.&quot;UrbanRunoffEquipment&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"/>
+
+<relationship name="TrafficCalming_inherits_Equipment" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#ea3938"
+	 src-table="&quot;Equipments&quot;.&quot;TrafficCalming&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"/>
+
+<usertype name="material" configuration="enumeration">
+	<schema name="&quot;Equipments&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<enumeration values="bush,metal,wood,plastic,other"/>
+</usertype>
 
 <permission>
 	<object name="asm" type="schema"/>
