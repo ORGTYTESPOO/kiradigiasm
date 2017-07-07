@@ -1,5 +1,3 @@
-GRANT "asmAdmin" TO [youradmin];
-
 -- Database generated with pgModeler (PostgreSQL Database Modeler).
 -- pgModeler  version: 0.8.2
 -- PostgreSQL version: 9.5
