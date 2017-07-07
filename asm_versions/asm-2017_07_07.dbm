@@ -120,7 +120,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="RoadLayer">
 	<schema name="asm"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="60" y="171.667"/>
+	<position x="61.25" y="235.417"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -243,15 +243,6 @@ GRANT SELECT,INSERT,UPDATE
 	<constraint name="CenterLine_pk" type="pk-constr" table="asm.&quot;CenterLine&quot;">
 		<columns names="gid" ref-type="src-columns"/>
 	</constraint>
-
-	<customidxs object-type="column">
-		<object name="gid_InfraPart" index="2"/>
-	</customidxs>
-
-	<customidxs object-type="constraint">
-		<object name="CenterLine_uq" index="2"/>
-		<object name="InfraPart_fk" index="1"/>
-	</customidxs>
 </table>
 
 <table name="Route">
@@ -278,7 +269,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="HistoryEvent">
 	<schema name="&quot;History&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1181.67" y="1134.67"/>
+	<position x="1052.92" y="1123"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -333,16 +324,10 @@ GRANT SELECT,INSERT,UPDATE
 
 	<customidxs object-type="column">
 		<object name="code_UseType" index="5"/>
-		<object name="gid_Asset" index="6"/>
-		<object name="id_RoadMaintenanceDecision" index="7"/>
 	</customidxs>
 
 	<customidxs object-type="constraint">
-		<object name="Asset_fk" index="3"/>
 		<object name="InfraPart_uq" index="2"/>
-		<object name="InfraPart_uq1" index="4"/>
-		<object name="InfraPart_uq2" index="6"/>
-		<object name="RoadMaintenanceDecision_fk" index="5"/>
 		<object name="UseType_fk" index="1"/>
 	</customidxs>
 </table>
@@ -473,7 +458,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="Equipment">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="696.667" y="1968.62"/>
+	<position x="690" y="2058.62"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -501,18 +486,6 @@ GRANT SELECT,INSERT,UPDATE
 	<constraint name="Furniture_pk" type="pk-constr" table="&quot;Equipments&quot;.&quot;Equipment&quot;">
 		<columns names="gid" ref-type="src-columns"/>
 	</constraint>
-
-	<customidxs object-type="column">
-		<object name="gid_Asset" index="9"/>
-		<object name="gid_InfraPart" index="8"/>
-	</customidxs>
-
-	<customidxs object-type="constraint">
-		<object name="Asset_fk" index="3"/>
-		<object name="Equipment_uq" index="2"/>
-		<object name="Equipment_uq1" index="4"/>
-		<object name="InfraPart_fk" index="1"/>
-	</customidxs>
 </table>
 
 <schema name="Media" rect-visible="true" fill-color="#5500ff">
@@ -556,7 +529,25 @@ GRANT SELECT,INSERT,UPDATE
 <table name="MaintenanceContract">
 	<schema name="&quot;Maintenance&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="2298.33" y="950"/>
+	<position x="2300" y="950"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<constraint name="MaintenanceContract_pk" type="pk-constr" table="&quot;Maintenance&quot;.&quot;MaintenanceContract&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="gid_Asset" index="1"/>
+		<object name="id_MaintenanceWork" index="2"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="Asset_fk" index="0"/>
+		<object name="MaintenanceContract_uq" index="1"/>
+		<object name="MaintenanceContract_uq1" index="3"/>
+		<object name="MaintenanceWork_fk" index="2"/>
+	</customidxs>
 </table>
 
 <table name="MaintenanceRegionAssetLink">
@@ -625,7 +616,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="UrbanRunoffEquipment">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1465" y="1981.33"/>
+	<position x="1458.33" y="2071.33"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -651,7 +642,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="TrafficCalming">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="28.3333" y="1861"/>
+	<position x="21.6666" y="1951"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -784,15 +775,6 @@ GRANT SELECT,INSERT,UPDATE
 	<constraint name="vegetationnumber_uq" type="uq-constr" table="asm.&quot;Vegetation&quot;">
 		<columns names="vegetationNumber" ref-type="src-columns"/>
 	</constraint>
-
-	<customidxs object-type="column">
-		<object name="gid_Asset" index="4"/>
-	</customidxs>
-
-	<customidxs object-type="constraint">
-		<object name="Asset_fk" index="1"/>
-		<object name="Vegetation_uq" index="2"/>
-	</customidxs>
 </table>
 
 <table name="SimplifiedCode">
@@ -818,7 +800,7 @@ GRANT SELECT,INSERT,UPDATE
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
 	<comment><![CDATA[Tiemerkinn�t - maalatut tienpinnassa]]></comment>
-	<position x="48.3333" y="2221"/>
+	<position x="41.6666" y="2311"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -1008,12 +990,6 @@ GRANT SELECT,INSERT,UPDATE
 	</constraint>
 </table>
 
-<relationship name="MaintenanceContract_inherits_Contract" type="relgen"
-	 pk-pattern="{dt}_pk"
-	 custom-color="#38fc9d"
-	 src-table="&quot;Maintenance&quot;.&quot;MaintenanceContract&quot;"
-	 dst-table="&quot;Management&quot;.&quot;Contract&quot;"/>
-
 <relationship name="TenderProposal_has_one_RequestForTender" type="rel11"
 	 src-col-pattern="{sc}_{st}"
 	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
@@ -1188,7 +1164,7 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 <table name="Mounting">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="880" y="2653"/>
+	<position x="873.333" y="2743"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -1198,15 +1174,6 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 	<constraint name="LightPole_pk" type="pk-constr" table="&quot;Equipments&quot;.&quot;Mounting&quot;">
 		<columns names="gid" ref-type="src-columns"/>
 	</constraint>
-
-	<customidxs object-type="column">
-		<object name="gid_InfraPart" index="2"/>
-	</customidxs>
-
-	<customidxs object-type="constraint">
-		<object name="InfraPart_fk" index="2"/>
-		<object name="Mounting_uq" index="1"/>
-	</customidxs>
 </table>
 
 <table name="RoadMaintenanceDecision">
@@ -1273,7 +1240,7 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 <table name="StreetLight">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="356.667" y="2621.33"/>
+	<position x="350" y="2711.33"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -1387,7 +1354,7 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 <table name="TrafficSign">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1441.67" y="2361.33"/>
+	<position x="1435" y="2451.33"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -1413,15 +1380,6 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 	<constraint name="TrafficSign_pk" type="pk-constr" table="&quot;Equipments&quot;.&quot;TrafficSign&quot;">
 		<columns names="gid" ref-type="src-columns"/>
 	</constraint>
-
-	<customidxs object-type="column">
-		<object name="gid_Mounting" index="6"/>
-	</customidxs>
-
-	<customidxs object-type="constraint">
-		<object name="Mounting_fk" index="2"/>
-		<object name="TrafficSign_uq" index="1"/>
-	</customidxs>
 </table>
 
 <relationship name="Equipment_has_one_Asset" type="rel11"
@@ -1459,77 +1417,46 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 	 dst-table="asm.&quot;Asset&quot;"
 	 src-required="false" dst-required="false"/>
 
-<view name="RoadLengthsBySurfaceMaterial" materialized="true" sql-disabled="true">
-	<schema name="&quot;Reports&quot;"/>
+<table name="RoadSurface">
+	<schema name="asm"/>
+	<role name="postgres"/>
+	<position x="73.75" y="146.25"/>
+	<column name="gid" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="material">
+		<type name="varchar"/>
+	</column>
+	<column name="thickness">
+		<type name="smallint"/>
+	</column>
+	<constraint name="RoadSurface_pk" type="pk-constr" table="asm.&quot;RoadSurface&quot;">
+		<columns names="gid" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="PlayGroundEquipment">
+	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="81.6667" y="1282"/>
-	<reference>
-		<expression><![CDATA[SUM(ST_Length(geom)) / 1000  as length]]></expression>
-	</reference>
-	<reference table="asm.&quot;RoadLayer&quot;" column="material"/>
-	<reference table="asm.&quot;CenterLine&quot;" alias="cline"/>
-	<reference table="asm.&quot;RoadLayer&quot;" alias="rlayer"/>
-	<expression type="select-exp">0,1</expression>
-	<expression type="from-exp">2,3</expression>
-</view>
+	<position x="30" y="1734.67"/>
+</table>
 
-<relationship name="&quot;rel_RoadLengthsBySurfaceMaterial_RoadLayer&quot;" type="reltv"
-	 src-table="&quot;Reports&quot;.&quot;RoadLengthsBySurfaceMaterial&quot;"
-	 dst-table="asm.&quot;RoadLayer&quot;"
-	 src-required="false" dst-required="false"/>
-
-<view name="EquipmentList" materialized="true">
-	<schema name="&quot;Reports&quot;"/>
-	<role name="&quot;asmAdmin&quot;"/>
-	<position x="346.667" y="1220"/>
-	<reference>
-		<expression><![CDATA[equip.brand]]></expression>
-	</reference>
-	<reference>
-		<expression><![CDATA[equip.model]]></expression>
-	</reference>
-	<reference>
-		<expression><![CDATA[equip.type]]></expression>
-	</reference>
-	<reference>
-		<expression><![CDATA[equip."equipmentGroup" AS equipgroup]]></expression>
-	</reference>
-	<reference>
-		<expression><![CDATA[equipasset.geom_point,
-equipasset.geom_poly,
-equipasset.geom_line]]></expression>
-	</reference>
-	<reference>
-		<expression><![CDATA[equipasset.address,
-equipasset."addressNumber"]]></expression>
-	</reference>
-	<reference table="asm.&quot;Asset&quot;" alias="equipasset"/>
-	<reference table="&quot;Equipments&quot;.&quot;Equipment&quot;" alias="equip"/>
-	<reference>
-		<expression><![CDATA[equip."gid_Asset" = equipasset.gid]]></expression>
-	</reference>
-	<expression type="select-exp">0,1,2,3,4,5</expression>
-	<expression type="from-exp">6,7</expression>
-	<expression type="simple-exp">8</expression>
-</view>
-
-<relationship name="&quot;rel_EquipmentList_Equipment&quot;" type="reltv"
-	 src-table="&quot;Reports&quot;.&quot;EquipmentList&quot;"
-	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="&quot;rel_EquipmentList_Asset&quot;" type="reltv"
-	 src-table="&quot;Reports&quot;.&quot;EquipmentList&quot;"
-	 dst-table="asm.&quot;Asset&quot;"
-	 src-required="false" dst-required="false"/>
-
-<view name="VegetationMaintenanceWorks" materialized="true" sql-disabled="true">
+<view name="TreeMaintenanceWorks" materialized="true">
 	<schema name="&quot;Reports&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
 	<position x="696.667" y="1216.67"/>
 	<reference table="&quot;Maintenance&quot;.&quot;MaintenanceWork&quot;" column="type"/>
 	<reference table="asm.&quot;Vegetation&quot;" column="vegetationCode"/>
-	<expression type="select-exp">0,1</expression>
+	<reference table="asm.&quot;Vegetation&quot;" column="vegetationNumber"/>
+	<reference table="asm.&quot;Vegetation&quot;" column="vegetationType" column-alias="vegetype"/>
+	<reference table="&quot;Maintenance&quot;.&quot;MaintenanceWork&quot;"/>
+	<reference table="asm.&quot;Vegetation&quot;"/>
+	<reference>
+		<expression><![CDATA[asm."Vegetation"."vegetationType" = 'tree']]></expression>
+	</reference>
+	<expression type="select-exp">0,1,2,3</expression>
+	<expression type="from-exp">4,5</expression>
+	<expression type="simple-exp">6</expression>
 </view>
 
 <relationship name="&quot;rel_VegetationMaintenanceWorks_MaintenanceWork&quot;" type="reltv"
@@ -1537,10 +1464,15 @@ equipasset."addressNumber"]]></expression>
 	 dst-table="&quot;Maintenance&quot;.&quot;MaintenanceWork&quot;"
 	 src-required="false" dst-required="false"/>
 
+<relationship name="&quot;rel_VegetationMaintenanceWorks_Vegetation&quot;" type="reltv"
+	 src-table="&quot;Reports&quot;.&quot;VegetationMaintenanceWorks&quot;"
+	 dst-table="asm.&quot;Vegetation&quot;"
+	 src-required="false" dst-required="false"/>
+
 <table name="Furniture">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1036.67" y="1424.67"/>
+	<position x="1030" y="1514.67"/>
 </table>
 
 <relationship name="BenchTable_inherits_Equipment" type="relgen"
@@ -1552,7 +1484,7 @@ equipasset."addressNumber"]]></expression>
 <table name="Advertisement">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1450" y="1634.67"/>
+	<position x="1443.33" y="1724.67"/>
 </table>
 
 <relationship name="Advertisement_inherits_Equipment" type="relgen"
@@ -1564,7 +1496,7 @@ equipasset."addressNumber"]]></expression>
 <table name="Art">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1450" y="1478"/>
+	<position x="1443.33" y="1568"/>
 </table>
 
 <relationship name="Art_inherits_Equipment" type="relgen"
@@ -1576,7 +1508,7 @@ equipasset."addressNumber"]]></expression>
 <table name="Crossing">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="36.6667" y="2047.67"/>
+	<position x="30" y="2137.67"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -1594,7 +1526,7 @@ equipasset."addressNumber"]]></expression>
 <table name="Structure">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="36.6667" y="1464.67"/>
+	<position x="30" y="1554.67"/>
 </table>
 
 <relationship name="Structure_inherits_Equipment" type="relgen"
@@ -1606,7 +1538,7 @@ equipasset."addressNumber"]]></expression>
 <table name="TrashEquipment">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1450" y="1794.67"/>
+	<position x="1443.33" y="1884.67"/>
 </table>
 
 <relationship name="TrashEquipment_inherits_Equipment" type="relgen"
@@ -1615,11 +1547,27 @@ equipasset."addressNumber"]]></expression>
 	 src-table="&quot;Equipments&quot;.&quot;TrashEquipment&quot;"
 	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"/>
 
-<table name="PlayGroundEquipment">
-	<schema name="&quot;Equipments&quot;"/>
+<view name="PlaygroundEquipmentList" materialized="true">
+	<schema name="&quot;Reports&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="36.6667" y="1644.67"/>
-</table>
+	<position x="341.667" y="1215.67"/>
+	<reference>
+		<expression><![CDATA[equip.model,
+  equipasset.name,
+  equipasset.address,
+  equipasset."addressNumber"
+FROM
+   asm."Asset" AS equipasset,
+   "Equipments"."PlayGroundEquipment" AS equip
+WHERE
+   equip."gid_Asset" = equipasset.gid
+AND equipasset.landuse = 'park'
+   GROUP BY equipasset.name, equipasset.address,
+equipasset."addressNumber", equip.model
+ORDER BY equipasset.name, equip.model;]]></expression>
+	</reference>
+	<expression type="select-exp">0</expression>
+</view>
 
 <relationship name="PlayGroundEquipment_inherits_Equipment" type="relgen"
 	 pk-pattern="{dt}_pk"
@@ -1630,23 +1578,13 @@ equipasset."addressNumber"]]></expression>
 <table name="StreetSign">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1440" y="2648"/>
-
-	<customidxs object-type="column">
-		<object name="gid_Mounting" index="0"/>
-	</customidxs>
-
-	<customidxs object-type="constraint">
-		<object name="Mounting_fk" index="1"/>
-		<object name="StreetSign_pk" index="0"/>
-		<object name="StreetSign_uq" index="2"/>
-	</customidxs>
+	<position x="1433.33" y="2738"/>
 </table>
 
 <table name="Fence">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="356.667" y="1544.67"/>
+	<position x="350" y="1634.67"/>
 </table>
 
 <relationship name="TrafficSign_has_one_Mounting" type="rel11"
@@ -1679,7 +1617,7 @@ equipasset."addressNumber"]]></expression>
 <table name="StreetLightConductor">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="21.6667" y="2449.67"/>
+	<position x="15" y="2539.67"/>
 </table>
 
 <relationship name="StreetLightConductor_inherits_Equipment" type="relgen"
@@ -1709,7 +1647,7 @@ equipasset."addressNumber"]]></expression>
 <table name="StreetLightStation">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="23.3333" y="2618"/>
+	<position x="16.6666" y="2708"/>
 </table>
 
 <relationship name="StreetLightStation_inherits_Equipment" type="relgen"
@@ -1727,7 +1665,7 @@ equipasset."addressNumber"]]></expression>
 <table name="NoiseBarrier">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="696.667" y="1444.67"/>
+	<position x="690" y="1534.67"/>
 </table>
 
 <relationship name="NoiseBarrier_inherits_Equipment" type="relgen"
@@ -1754,11 +1692,6 @@ equipasset."addressNumber"]]></expression>
 	 dst-table="&quot;Media&quot;.&quot;Symbol&quot;"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="&quot;rel_VegetationMaintenanceWorks_Vegetation&quot;" type="reltv"
-	 src-table="&quot;Reports&quot;.&quot;VegetationMaintenanceWorks&quot;"
-	 dst-table="asm.&quot;Vegetation&quot;"
-	 src-required="false" dst-required="false"/>
-
 <relationship name="Vegetation_has_one_Asset" type="rel11"
 	 src-col-pattern="{sc}_{st}"
 	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
@@ -1771,7 +1704,7 @@ equipasset."addressNumber"]]></expression>
 <table name="TrafficLight">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1455" y="2198"/>
+	<position x="1448.33" y="2288"/>
 </table>
 
 <relationship name="TrafficLight_inherits_Equipment" type="relgen"
@@ -1779,19 +1712,6 @@ equipasset."addressNumber"]]></expression>
 	 custom-color="#9f1760"
 	 src-table="&quot;Equipments&quot;.&quot;TrafficLight&quot;"
 	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"/>
-
-<view name="YearQuartalHistoryReport" materialized="true" sql-disabled="true">
-	<schema name="&quot;Reports&quot;"/>
-	<role name="&quot;asmAdmin&quot;"/>
-	<position x="936.667" y="1160"/>
-	<reference table="&quot;History&quot;.&quot;HistoryEvent&quot;" column="eventType"/>
-	<expression type="select-exp">0</expression>
-</view>
-
-<relationship name="&quot;rel_YearQuartalHistoryReport_HistoryEvent&quot;" type="reltv"
-	 src-table="&quot;Reports&quot;.&quot;YearQuartalHistoryReport&quot;"
-	 dst-table="&quot;History&quot;.&quot;HistoryEvent&quot;"
-	 src-required="false" dst-required="false"/>
 
 <relationship name="Equipment_has_one_InfraPart" type="rel11"
 	 src-col-pattern="{sc}_{st}"
@@ -1819,6 +1739,79 @@ equipasset."addressNumber"]]></expression>
 	<role name="&quot;asmAdmin&quot;"/>
 	<enumeration values="bush,metal,wood,plastic,other"/>
 </usertype>
+
+<view name="RoadLengthsBySurfaceMaterial" materialized="true">
+	<schema name="&quot;Reports&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="81.6667" y="1282"/>
+	<reference>
+		<expression><![CDATA[SUM(ST_Length(cline.geom)) / 1000  AS length]]></expression>
+	</reference>
+	<reference>
+		<expression><![CDATA[rsurface.material]]></expression>
+	</reference>
+	<reference>
+		<expression><![CDATA[infrapart."roadClass" AS roadclass]]></expression>
+	</reference>
+	<reference table="asm.&quot;CenterLine&quot;" alias="cline"/>
+	<reference table="asm.&quot;RoadSurface&quot;" alias="rsurface"/>
+	<reference table="asm.&quot;Asset&quot;" alias="asset"/>
+	<reference table="asm.&quot;InfraPart&quot;" alias="infrapart"/>
+	<reference>
+		<expression><![CDATA[cline."gid_InfraPart" = infrapart.gid
+AND rsurface."gid_Asset" = asset.gid
+AND infrapart."gid_Asset" = asset.gid
+GROUP BY rsurface.material,infrapart."roadClass"
+ORDER BY infrapart."roadClass",rsurface.material]]></expression>
+	</reference>
+	<expression type="select-exp">0,1,2</expression>
+	<expression type="from-exp">3,4,5,6</expression>
+	<expression type="simple-exp">7</expression>
+</view>
+
+<relationship name="RoadSurface_has_one_Asset" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#e334fb"
+	 src-table="asm.&quot;Asset&quot;"
+	 dst-table="asm.&quot;RoadSurface&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="MaintenanceContract_inherits_Contract" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#6e1ce0"
+	 src-table="&quot;Maintenance&quot;.&quot;MaintenanceContract&quot;"
+	 dst-table="&quot;Management&quot;.&quot;Contract&quot;"/>
+
+<view name="TrafficSignDeleteReport" materialized="true">
+	<schema name="&quot;History&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="1070.81" y="1275.2"/>
+	<reference>
+		<expression><![CDATA[  histevent."eventType" AS eventtype,
+  extract(month from histevent.date) AS month,
+  trafficsign.model AS model,
+  actor.name AS maintainer
+FROM
+   "History"."HistoryEvent" AS histevent,
+   "Equipments"."TrafficSign" AS trafficsign,
+   "Actors"."Maintainer" AS actor,
+   "Maintenance"."MaintenanceRegion" AS maintregion,
+   "Maintenance"."MaintenanceRegionAssetLink" AS assetmregionlink,
+   asm."Asset" AS asset
+WHERE
+  actor.id = maintregion."id_Maintainer"
+  AND assetmregionlink."gid_MaintenanceRegion" = maintregion."id_Maintainer"
+  AND assetmregionlink."gid_Asset" = asset.gid
+  AND trafficsign."gid_Asset" = asset.gid
+  AND histevent."TableName" = 'TrafficSign'
+  AND histevent."eventType" = 'delete'
+  GROUP BY eventtype,month, model, maintainer
+  ORDER BY eventtype,month, model, maintainer]]></expression>
+	</reference>
+	<expression type="select-exp">0</expression>
+</view>
 
 <permission>
 	<object name="asm" type="schema"/>
