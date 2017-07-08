@@ -1,3 +1,4 @@
+
 -- Database generated with pgModeler (PostgreSQL Database Modeler).
 -- pgModeler  version: 0.8.2
 -- PostgreSQL version: 9.5
@@ -5,14 +6,16 @@
 -- Model Author: ---
 
 -- object: "asmAdmin" | type: ROLE --
--- DROP ROLE IF EXISTS "asmAdmin";
+DROP ROLE IF EXISTS "asmAdmin";
 CREATE ROLE "asmAdmin" WITH ;
 -- ddl-end --
 
 -- object: "asmUser" | type: ROLE --
--- DROP ROLE IF EXISTS "asmUser";
+DROP ROLE IF EXISTS "asmUser";
 CREATE ROLE "asmUser" WITH ;
 -- ddl-end --
+
+GRANT "asmAdmin" TO [youradmin];
 
 
 -- Database creation must be done outside an multicommand file.
@@ -1315,7 +1318,7 @@ CREATE TABLE asm."RoadSurface"(
 
 );
 -- ddl-end --
-ALTER TABLE asm."RoadSurface" OWNER TO postgres;
+ALTER TABLE asm."RoadSurface" OWNER TO "asmAdmin";
 -- ddl-end --
 
 -- object: "Equipments"."PlayGroundEquipment" | type: TABLE --

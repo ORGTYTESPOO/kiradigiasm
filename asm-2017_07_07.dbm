@@ -3,8 +3,8 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.2" last-position="0,0" last-zoom="0.6"
-	 default-owner="&quot;asmAdmin&quot;">
+<dbmodel pgmodeler-ver="0.8.2" last-position="0,0" last-zoom="1"
+	 default-owner="postgres">
 <role name="asmAdmin">
 </role>
 
@@ -58,7 +58,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="InfraCode2017">
 	<schema name="asm"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="41.6667" y="458.333"/>
+	<position x="40" y="463"/>
 	<column name="code" not-null="true">
 		<type name="char" length="5"/>
 	</column>
@@ -120,7 +120,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="RoadLayer">
 	<schema name="asm"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="61.25" y="235.417"/>
+	<position x="60" y="243"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -144,7 +144,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="MaintenanceRegion">
 	<schema name="&quot;Maintenance&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="2078.33" y="1190"/>
+	<position x="2080" y="1200"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -178,7 +178,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="Actor">
 	<schema name="&quot;Actors&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1985" y="58"/>
+	<position x="1980" y="60"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -202,7 +202,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="UseType">
 	<schema name="asm"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1061.67" y="1001.67"/>
+	<position x="1060" y="1003"/>
 	<column name="code" not-null="true">
 		<type name="char" length="5"/>
 	</column>
@@ -233,7 +233,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="CenterLine">
 	<schema name="asm"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="20" y="611.667"/>
+	<position x="20" y="623"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -248,7 +248,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="Route">
 	<schema name="asm"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1095" y="91.3333"/>
+	<position x="1100" y="103"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -269,7 +269,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="HistoryEvent">
 	<schema name="&quot;History&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1052.92" y="1123"/>
+	<position x="1060" y="1120"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -301,7 +301,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="InfraPart">
 	<schema name="asm"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="600" y="888.333"/>
+	<position x="600" y="883"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -335,7 +335,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="MaintenanceWork">
 	<schema name="&quot;Maintenance&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="2338.33" y="1190"/>
+	<position x="2340" y="1200"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -371,7 +371,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="Maintainer">
 	<schema name="&quot;Actors&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="2345" y="255"/>
+	<position x="2340" y="260"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -417,7 +417,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="Contract">
 	<schema name="&quot;Management&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1960" y="658"/>
+	<position x="1960" y="660"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -446,7 +446,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="Possessor">
 	<schema name="&quot;Actors&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1925" y="335"/>
+	<position x="1920" y="340"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -458,7 +458,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="Equipment">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="690" y="2058.62"/>
+	<position x="700" y="2060"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -495,7 +495,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="Media">
 	<schema name="&quot;Media&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1926.67" y="1569.33"/>
+	<position x="1920" y="1560"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -529,31 +529,19 @@ GRANT SELECT,INSERT,UPDATE
 <table name="MaintenanceContract">
 	<schema name="&quot;Maintenance&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="2300" y="950"/>
+	<position x="2300" y="960"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
 	<constraint name="MaintenanceContract_pk" type="pk-constr" table="&quot;Maintenance&quot;.&quot;MaintenanceContract&quot;">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
-
-	<customidxs object-type="column">
-		<object name="gid_Asset" index="1"/>
-		<object name="id_MaintenanceWork" index="2"/>
-	</customidxs>
-
-	<customidxs object-type="constraint">
-		<object name="Asset_fk" index="0"/>
-		<object name="MaintenanceContract_uq" index="1"/>
-		<object name="MaintenanceContract_uq1" index="3"/>
-		<object name="MaintenanceWork_fk" index="2"/>
-	</customidxs>
 </table>
 
 <table name="MaintenanceRegionAssetLink">
 	<schema name="&quot;Maintenance&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1798.33" y="939.667"/>
+	<position x="1800" y="940"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -574,7 +562,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="AssetRouteLink">
 	<schema name="asm"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1125" y="226.333"/>
+	<position x="1120" y="223"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -595,7 +583,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="AssetPhotoLink">
 	<schema name="&quot;Media&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1926.67" y="1426.33"/>
+	<position x="1920" y="1420"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -616,7 +604,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="UrbanRunoffEquipment">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1458.33" y="2071.33"/>
+	<position x="1460" y="2080"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -642,7 +630,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="TrafficCalming">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="21.6666" y="1951"/>
+	<position x="20" y="1960"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -660,7 +648,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="Owner">
 	<schema name="&quot;Actors&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="2145" y="335"/>
+	<position x="2140" y="340"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -672,7 +660,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="Asset">
 	<schema name="asm"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="481.667" y="302.667"/>
+	<position x="480" y="303"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -758,7 +746,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="Vegetation">
 	<schema name="asm"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="431.667" y="100"/>
+	<position x="440" y="103"/>
 	<column name="gid">
 		<type name="serial"/>
 	</column>
@@ -781,7 +769,7 @@ GRANT SELECT,INSERT,UPDATE
 	<schema name="asm"/>
 	<role name="&quot;asmAdmin&quot;"/>
 	<comment><![CDATA[Simplified codes based on Infra codes]]></comment>
-	<position x="41.6667" y="378.333"/>
+	<position x="40" y="383"/>
 	<column name="code" not-null="true">
 		<type name="char" length="5"/>
 	</column>
@@ -800,7 +788,7 @@ GRANT SELECT,INSERT,UPDATE
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
 	<comment><![CDATA[Tiemerkinn�t - maalatut tienpinnassa]]></comment>
-	<position x="41.6666" y="2311"/>
+	<position x="40" y="2320"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -863,7 +851,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="RequestForTender">
 	<schema name="&quot;Management&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1675" y="539.667"/>
+	<position x="1680" y="540"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -881,7 +869,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="TenderProposal">
 	<schema name="&quot;Management&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="2261.67" y="566.333"/>
+	<position x="2260" y="560"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -899,7 +887,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="Orderer">
 	<schema name="&quot;Actors&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1665" y="235"/>
+	<position x="1660" y="240"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -951,7 +939,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="Payer">
 	<schema name="&quot;Actors&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1665" y="98"/>
+	<position x="1660" y="100"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -975,7 +963,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="Permission">
 	<schema name="&quot;Management&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="2275" y="699.667"/>
+	<position x="2280" y="700"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -1002,7 +990,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="MaintenanceCard">
 	<schema name="&quot;Maintenance&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1563.33" y="1045"/>
+	<position x="1560" y="1040"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -1020,7 +1008,7 @@ GRANT SELECT,INSERT,UPDATE
 <view name="InfraAreasGroupedByMaintenance" materialized="true">
 	<schema name="&quot;Reports&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="81.6667" y="1128"/>
+	<position x="80" y="1120"/>
 	<reference alias="area">
 		<expression><![CDATA[SUM(ST_Area(geom_poly))]]></expression>
 	</reference>
@@ -1063,7 +1051,7 @@ GROUP BY mcard.description]]></expression>
 <view name="HighWayAreasClassI" materialized="true">
 	<schema name="&quot;Reports&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="81.6667" y="1202"/>
+	<position x="80" y="1200"/>
 	<reference>
 		<expression><![CDATA[SUM(ST_Area(geom_poly)) AS area]]></expression>
 	</reference>
@@ -1164,7 +1152,7 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 <table name="Mounting">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="873.333" y="2743"/>
+	<position x="880" y="2740"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -1179,7 +1167,7 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 <table name="RoadMaintenanceDecision">
 	<schema name="&quot;Management&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1676.67" y="720"/>
+	<position x="1680" y="720"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -1213,7 +1201,7 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 <table name="Decider">
 	<schema name="&quot;Actors&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="2365" y="95"/>
+	<position x="2360" y="100"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -1240,7 +1228,7 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 <table name="StreetLight">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="350" y="2711.33"/>
+	<position x="360" y="2720"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -1280,7 +1268,7 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 <table name="Symbol">
 	<schema name="&quot;Media&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1926.67" y="1729.33"/>
+	<position x="1920" y="1720"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -1295,7 +1283,7 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 <table name="Bridge">
 	<schema name="asm"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="60" y="911.667"/>
+	<position x="60" y="923"/>
 </table>
 
 <relationship name="Bridge_inherits_InfraPart" type="relgen"
@@ -1307,7 +1295,7 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 <table name="Underpass">
 	<schema name="asm"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="40" y="751.667"/>
+	<position x="40" y="763"/>
 </table>
 
 <relationship name="Underpass_inherits_InfraPart" type="relgen"
@@ -1333,7 +1321,7 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 	<schema name="&quot;Maintenance&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
 	<comment><![CDATA[The "cookie -cutter" table that holds separate geometries for map making and analyses.]]></comment>
-	<position x="1558.33" y="1170"/>
+	<position x="1560" y="1180"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -1354,7 +1342,7 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 <table name="TrafficSign">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1435" y="2451.33"/>
+	<position x="1440" y="2460"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -1419,8 +1407,8 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 
 <table name="RoadSurface">
 	<schema name="asm"/>
-	<role name="postgres"/>
-	<position x="73.75" y="146.25"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="80" y="143"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -1438,13 +1426,13 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 <table name="PlayGroundEquipment">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="30" y="1734.67"/>
+	<position x="40" y="1740"/>
 </table>
 
 <view name="TreeMaintenanceWorks" materialized="true">
 	<schema name="&quot;Reports&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="696.667" y="1216.67"/>
+	<position x="700" y="1220"/>
 	<reference table="&quot;Maintenance&quot;.&quot;MaintenanceWork&quot;" column="type"/>
 	<reference table="asm.&quot;Vegetation&quot;" column="vegetationCode"/>
 	<reference table="asm.&quot;Vegetation&quot;" column="vegetationNumber"/>
@@ -1459,20 +1447,20 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 	<expression type="simple-exp">6</expression>
 </view>
 
-<relationship name="&quot;rel_VegetationMaintenanceWorks_MaintenanceWork&quot;" type="reltv"
-	 src-table="&quot;Reports&quot;.&quot;VegetationMaintenanceWorks&quot;"
+<relationship name="&quot;rel_TreeMaintenanceWorks_MaintenanceWork&quot;" type="reltv"
+	 src-table="&quot;Reports&quot;.&quot;TreeMaintenanceWorks&quot;"
 	 dst-table="&quot;Maintenance&quot;.&quot;MaintenanceWork&quot;"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="&quot;rel_VegetationMaintenanceWorks_Vegetation&quot;" type="reltv"
-	 src-table="&quot;Reports&quot;.&quot;VegetationMaintenanceWorks&quot;"
+<relationship name="&quot;rel_TreeMaintenanceWorks_Vegetation&quot;" type="reltv"
+	 src-table="&quot;Reports&quot;.&quot;TreeMaintenanceWorks&quot;"
 	 dst-table="asm.&quot;Vegetation&quot;"
 	 src-required="false" dst-required="false"/>
 
 <table name="Furniture">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1030" y="1514.67"/>
+	<position x="1040" y="1520"/>
 </table>
 
 <relationship name="BenchTable_inherits_Equipment" type="relgen"
@@ -1484,7 +1472,7 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 <table name="Advertisement">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1443.33" y="1724.67"/>
+	<position x="1440" y="1720"/>
 </table>
 
 <relationship name="Advertisement_inherits_Equipment" type="relgen"
@@ -1496,7 +1484,7 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 <table name="Art">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1443.33" y="1568"/>
+	<position x="1440" y="1560"/>
 </table>
 
 <relationship name="Art_inherits_Equipment" type="relgen"
@@ -1508,7 +1496,7 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 <table name="Crossing">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="30" y="2137.67"/>
+	<position x="40" y="2140"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -1526,7 +1514,7 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 <table name="Structure">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="30" y="1554.67"/>
+	<position x="40" y="1560"/>
 </table>
 
 <relationship name="Structure_inherits_Equipment" type="relgen"
@@ -1538,7 +1526,7 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 <table name="TrashEquipment">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1443.33" y="1884.67"/>
+	<position x="1440" y="1880"/>
 </table>
 
 <relationship name="TrashEquipment_inherits_Equipment" type="relgen"
@@ -1550,7 +1538,7 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 <view name="PlaygroundEquipmentList" materialized="true">
 	<schema name="&quot;Reports&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="341.667" y="1215.67"/>
+	<position x="340" y="1220"/>
 	<reference>
 		<expression><![CDATA[equip.model,
   equipasset.name,
@@ -1578,13 +1566,13 @@ ORDER BY equipasset.name, equip.model;]]></expression>
 <table name="StreetSign">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1433.33" y="2738"/>
+	<position x="1440" y="2740"/>
 </table>
 
 <table name="Fence">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="350" y="1634.67"/>
+	<position x="360" y="1640"/>
 </table>
 
 <relationship name="TrafficSign_has_one_Mounting" type="rel11"
@@ -1617,7 +1605,7 @@ ORDER BY equipasset.name, equip.model;]]></expression>
 <table name="StreetLightConductor">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="15" y="2539.67"/>
+	<position x="20" y="2540"/>
 </table>
 
 <relationship name="StreetLightConductor_inherits_Equipment" type="relgen"
@@ -1647,7 +1635,7 @@ ORDER BY equipasset.name, equip.model;]]></expression>
 <table name="StreetLightStation">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="16.6666" y="2708"/>
+	<position x="20" y="2700"/>
 </table>
 
 <relationship name="StreetLightStation_inherits_Equipment" type="relgen"
@@ -1665,7 +1653,7 @@ ORDER BY equipasset.name, equip.model;]]></expression>
 <table name="NoiseBarrier">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="690" y="1534.67"/>
+	<position x="700" y="1540"/>
 </table>
 
 <relationship name="NoiseBarrier_inherits_Equipment" type="relgen"
@@ -1704,7 +1692,7 @@ ORDER BY equipasset.name, equip.model;]]></expression>
 <table name="TrafficLight">
 	<schema name="&quot;Equipments&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1448.33" y="2288"/>
+	<position x="1440" y="2280"/>
 </table>
 
 <relationship name="TrafficLight_inherits_Equipment" type="relgen"
@@ -1743,7 +1731,7 @@ ORDER BY equipasset.name, equip.model;]]></expression>
 <view name="RoadLengthsBySurfaceMaterial" materialized="true">
 	<schema name="&quot;Reports&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="81.6667" y="1282"/>
+	<position x="80" y="1280"/>
 	<reference>
 		<expression><![CDATA[SUM(ST_Length(cline.geom)) / 1000  AS length]]></expression>
 	</reference>
@@ -1787,7 +1775,7 @@ ORDER BY infrapart."roadClass",rsurface.material]]></expression>
 <view name="TrafficSignDeleteReport" materialized="true">
 	<schema name="&quot;History&quot;"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1070.81" y="1275.2"/>
+	<position x="1080" y="1280"/>
 	<reference>
 		<expression><![CDATA[  histevent."eventType" AS eventtype,
   extract(month from histevent.date) AS month,
