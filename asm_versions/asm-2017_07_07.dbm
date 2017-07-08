@@ -1,0 +1,1844 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.8.2" last-position="0,0" last-zoom="1"
+	 default-owner="postgres">
+<role name="asmAdmin">
+</role>
+
+<role name="asmUser">
+</role>
+
+<database name="asm-2017-07-07" append-at-eod="true">
+	<role name="&quot;asmAdmin&quot;"/>
+	<appended-sql><![CDATA[
+GRANT SELECT,INSERT,UPDATE
+   ON ALL TABLES IN SCHEMA asm
+   TO "asmUser";
+
+GRANT SELECT,INSERT,UPDATE
+   ON ALL TABLES IN SCHEMA "Maintenance"
+   TO "asmUser";
+
+GRANT SELECT,INSERT,UPDATE
+   ON ALL TABLES IN SCHEMA "History"
+   TO "asmUser";
+
+
+GRANT SELECT,INSERT,UPDATE
+   ON ALL TABLES IN SCHEMA "Actors"
+   TO "asmUser";
+
+GRANT SELECT,INSERT,UPDATE
+   ON ALL TABLES IN SCHEMA "Management"
+   TO "asmUser";
+
+GRANT SELECT,INSERT,UPDATE
+   ON ALL TABLES IN SCHEMA "Media"
+   TO "asmUser";
+
+GRANT SELECT,INSERT,UPDATE
+   ON ALL TABLES IN SCHEMA "Reports"
+   TO "asmUser";
+
+GRANT SELECT,INSERT,UPDATE
+   ON ALL TABLES IN SCHEMA "Equipments"
+   TO "asmUser";]]></appended-sql>
+</database>
+
+<schema name="public" protected="true" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<schema name="asm" rect-visible="true" fill-color="#aaff7f">
+	<role name="&quot;asmAdmin&quot;"/>
+</schema>
+
+<table name="InfraCode2017">
+	<schema name="asm"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="40" y="463"/>
+	<column name="code" not-null="true">
+		<type name="char" length="5"/>
+	</column>
+	<column name="name">
+		<type name="varchar"/>
+	</column>
+	<constraint name="InfraCode2017_pk" type="pk-constr" table="asm.&quot;InfraCode2017&quot;">
+		<columns names="code" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<schema name="Maintenance" rect-visible="true" fill-color="#ffaa00">
+	<role name="&quot;asmAdmin&quot;"/>
+</schema>
+
+<schema name="Actors" rect-visible="true" fill-color="#ffff7f">
+	<role name="&quot;asmAdmin&quot;"/>
+</schema>
+
+<textbox name="DBTitle" bold="true" font-size="12">
+	<position x="20" y="20"/>
+	<comment><![CDATA[Asset Management - v0.5]]></comment>
+</textbox>
+
+<schema name="Equipments" rect-visible="true" fill-color="#0000ff">
+	<role name="&quot;asmAdmin&quot;"/>
+</schema>
+
+<usertype name="equipmentgroup" configuration="enumeration">
+	<schema name="asm"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<enumeration values="trash,play,sport,furniture,art,fixremove,trafficsign,guidance"/>
+</usertype>
+
+<usertype name="SurfaceMaterial" configuration="enumeration">
+	<schema name="asm"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<enumeration values="A,AB"/>
+</usertype>
+
+<usertype name="infraparttype" configuration="enumeration">
+	<schema name="asm"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<enumeration values="underpasstube,underpassrapidtransit,underpasspedestrian,underpassrailway"/>
+</usertype>
+
+<usertype name="infra2017" configuration="enumeration">
+	<schema name="asm"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<enumeration values="L1.1"/>
+</usertype>
+
+<usertype name="simplifiedcodegroup" configuration="enumeration">
+	<schema name="asm"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<enumeration values="trafficarea,greenarea,specialarea"/>
+</usertype>
+
+<table name="RoadLayer">
+	<schema name="asm"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="60" y="243"/>
+	<column name="gid" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="material">
+		<type name="varchar"/>
+	</column>
+	<column name="thickness">
+		<type name="smallint"/>
+	</column>
+	<constraint name="RoadLayer_pk" type="pk-constr" table="asm.&quot;RoadLayer&quot;">
+		<columns names="gid" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<usertype name="assetStatus" configuration="enumeration">
+	<schema name="asm"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<enumeration values="planned,finished,removed"/>
+</usertype>
+
+<table name="MaintenanceRegion">
+	<schema name="&quot;Maintenance&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="2080" y="1200"/>
+	<column name="gid" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="name">
+		<type name="varchar"/>
+	</column>
+	<column name="type">
+		<type name="smallint"/>
+	</column>
+	<column name="validFrom">
+		<type name="date"/>
+		<comment><![CDATA[The time when the phenomenon started to exist in the real world.]]></comment>
+	</column>
+	<column name="validTo">
+		<type name="date"/>
+		<comment><![CDATA[The time from which the phenomenon no longer exists in the real world.]]></comment>
+	</column>
+	<column name="isTemporary">
+		<type name="bool"/>
+		<comment><![CDATA[Temporary region overrides common geospatial area with the other maintenance regions]]></comment>
+	</column>
+	<column name="priority">
+		<type name="smallint"/>
+		<comment><![CDATA[If some maintenance regions intersect each other then then the region with higher priority overrides the area of the intersecting region with lower priority]]></comment>
+	</column>
+	<constraint name="MaintenanceRegion_pk" type="pk-constr" table="&quot;Maintenance&quot;.&quot;MaintenanceRegion&quot;">
+		<columns names="gid" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="Actor">
+	<schema name="&quot;Actors&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="1980" y="60"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="name">
+		<type name="varchar"/>
+	</column>
+	<column name="VATCode">
+		<type name="varchar"/>
+	</column>
+	<column name="code">
+		<type name="smallint"/>
+	</column>
+	<constraint name="Actor_pk" type="pk-constr" table="&quot;Actors&quot;.&quot;Actor&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="Actor_code_uq" type="uq-constr" table="&quot;Actors&quot;.&quot;Actor&quot;">
+		<columns names="code" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="UseType">
+	<schema name="asm"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="1060" y="1003"/>
+	<column name="code" not-null="true">
+		<type name="char" length="5"/>
+	</column>
+	<column name="name">
+		<type name="varchar"/>
+	</column>
+	<constraint name="UseType_pk" type="pk-constr" table="asm.&quot;UseType&quot;">
+		<columns names="code" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<usertype name="RouteType" configuration="enumeration">
+	<schema name="asm"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<enumeration values="Rescue,Quality"/>
+</usertype>
+
+<schema name="History" rect-visible="true" fill-color="#aaffff">
+	<role name="&quot;asmAdmin&quot;"/>
+</schema>
+
+<usertype name="EventType" configuration="enumeration">
+	<schema name="&quot;History&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<enumeration values="add,change,delete"/>
+</usertype>
+
+<table name="CenterLine">
+	<schema name="asm"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="20" y="623"/>
+	<column name="gid" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="geom">
+		<type name="geometry" spatial-type="LINESTRING" variation="1" srid="3879"/>
+	</column>
+	<constraint name="CenterLine_pk" type="pk-constr" table="asm.&quot;CenterLine&quot;">
+		<columns names="gid" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="Route">
+	<schema name="asm"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="1100" y="103"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="name">
+		<type name="varchar"/>
+	</column>
+	<column name="description">
+		<type name="varchar"/>
+	</column>
+	<column name="type">
+		<type name="asm.&quot;RouteType&quot;"/>
+	</column>
+	<constraint name="Route_pk" type="pk-constr" table="asm.&quot;Route&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="HistoryEvent">
+	<schema name="&quot;History&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="1060" y="1120"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="TableName">
+		<type name="varchar"/>
+		<comment><![CDATA[Table that has a row added or deleted]]></comment>
+	</column>
+	<column name="eventType">
+		<type name="&quot;History&quot;.&quot;EventType&quot;"/>
+	</column>
+	<column name="userName">
+		<type name="varchar"/>
+		<comment><![CDATA[Name of the user who did the change]]></comment>
+	</column>
+	<column name="date">
+		<type name="date"/>
+	</column>
+	<column name="description">
+		<type name="varchar"/>
+	</column>
+	<column name="sqlQuery">
+		<type name="varchar"/>
+	</column>
+	<constraint name="HistoryEvent_pk" type="pk-constr" table="&quot;History&quot;.&quot;HistoryEvent&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="InfraPart">
+	<schema name="asm"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="600" y="883"/>
+	<column name="gid" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="speedLimit">
+		<type name="smallint"/>
+		<comment><![CDATA[Speed limit for that road]]></comment>
+	</column>
+	<column name="type">
+		<type name="asm.infraparttype"/>
+	</column>
+	<column name="functionalClass">
+		<type name="smallint"/>
+	</column>
+	<column name="roadClass">
+		<type name="smallint"/>
+	</column>
+	<constraint name="Surface_pk" type="pk-constr" table="asm.&quot;InfraPart&quot;">
+		<columns names="gid" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="code_UseType" index="5"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="InfraPart_uq" index="2"/>
+		<object name="UseType_fk" index="1"/>
+	</customidxs>
+</table>
+
+<table name="MaintenanceWork">
+	<schema name="&quot;Maintenance&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="2340" y="1200"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="type">
+		<type name="varchar"/>
+	</column>
+	<column name="description">
+		<type name="varchar"/>
+	</column>
+	<column name="unit">
+		<type name="varchar"/>
+	</column>
+	<column name="price">
+		<type name="double precision"/>
+	</column>
+	<column name="validFrom">
+		<type name="date"/>
+		<comment><![CDATA[The time when the phenomenon started to exist in the real world.]]></comment>
+	</column>
+	<column name="validTo">
+		<type name="date"/>
+		<comment><![CDATA[The time from which the phenomenon no longer exists in the real world.]]></comment>
+	</column>
+	<constraint name="MaintenanceWork_pk" type="pk-constr" table="&quot;Maintenance&quot;.&quot;MaintenanceWork&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<schema name="Management" rect-visible="true" fill-color="#ff0000">
+	<role name="&quot;asmAdmin&quot;"/>
+</schema>
+
+<table name="Maintainer">
+	<schema name="&quot;Actors&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="2340" y="260"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<constraint name="Maintainer_pk" type="pk-constr" table="&quot;Actors&quot;.&quot;Maintainer&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<usertype name="vegetationtype" configuration="enumeration">
+	<schema name="asm"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<enumeration values="tree,weed,bush,flowers"/>
+</usertype>
+
+<usertype name="equipmentype" configuration="enumeration">
+	<schema name="&quot;Equipments&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<enumeration values="billboard,digital,statue,graffiti,flagpole,sandbox,directionsign,fence,bank,wall,other"/>
+</usertype>
+
+<relationship name="RoadPart_has_one_UseType" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#78a86a"
+	 src-table="asm.&quot;UseType&quot;"
+	 dst-table="asm.&quot;InfraPart&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="-61.8553" y="15.3393"/>
+	</label>
+</relationship>
+
+<relationship name="Maintainer_has_many_MaintenanceRegion" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#53cf16"
+	 src-table="&quot;Actors&quot;.&quot;Maintainer&quot;"
+	 dst-table="&quot;Maintenance&quot;.&quot;MaintenanceRegion&quot;"
+	 src-required="false" dst-required="false"/>
+
+<table name="Contract">
+	<schema name="&quot;Management&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="1960" y="660"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="orderDate">
+		<type name="date"/>
+	</column>
+	<column name="journalNumber">
+		<type name="numeric" length="35"/>
+	</column>
+	<column name="planNumber">
+		<type name="integer"/>
+	</column>
+	<column name="validFrom">
+		<type name="date"/>
+		<comment><![CDATA[The time when the phenomenon started to exist in the real world.]]></comment>
+	</column>
+	<column name="validTo">
+		<type name="date"/>
+		<comment><![CDATA[The time from which the phenomenon no longer exists in the real world.]]></comment>
+	</column>
+	<constraint name="Contract_pk" type="pk-constr" table="&quot;Management&quot;.&quot;Contract&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="Possessor">
+	<schema name="&quot;Actors&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="1920" y="340"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<constraint name="Possessor_pk" type="pk-constr" table="&quot;Actors&quot;.&quot;Possessor&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="Equipment">
+	<schema name="&quot;Equipments&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="700" y="2060"/>
+	<column name="gid" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="type">
+		<type name="&quot;Equipments&quot;.equipmentype"/>
+	</column>
+	<column name="model">
+		<type name="varchar"/>
+	</column>
+	<column name="brand">
+		<type name="varchar"/>
+	</column>
+	<column name="equipmentGroup">
+		<type name="asm.equipmentgroup"/>
+	</column>
+	<column name="installDate">
+		<type name="date"/>
+	</column>
+	<column name="installer">
+		<type name="&quot;Actors&quot;.&quot;Maintainer&quot;"/>
+	</column>
+	<column name="material">
+		<type name="smallint"/>
+	</column>
+	<constraint name="Furniture_pk" type="pk-constr" table="&quot;Equipments&quot;.&quot;Equipment&quot;">
+		<columns names="gid" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<schema name="Media" rect-visible="true" fill-color="#5500ff">
+	<role name="&quot;asmAdmin&quot;"/>
+</schema>
+
+<table name="Media">
+	<schema name="&quot;Media&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="1920" y="1560"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="URL">
+		<type name="varchar"/>
+	</column>
+	<column name="URI">
+		<type name="varchar"/>
+	</column>
+	<column name="geom">
+		<type name="geometry" spatial-type="POINT" variation="1" srid="3879"/>
+	</column>
+	<column name="mapillaryPhotoKey">
+		<type name="varchar"/>
+	</column>
+	<column name="description">
+		<type name="varchar"/>
+	</column>
+	<column name="MIMEType">
+		<type name="varchar"/>
+	</column>
+	<constraint name="Photo_id" type="pk-constr" table="&quot;Media&quot;.&quot;Media&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<schema name="Reports" rect-visible="true" fill-color="#aaaa7f">
+	<role name="&quot;asmAdmin&quot;"/>
+</schema>
+
+<table name="MaintenanceContract">
+	<schema name="&quot;Maintenance&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="2300" y="960"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<constraint name="MaintenanceContract_pk" type="pk-constr" table="&quot;Maintenance&quot;.&quot;MaintenanceContract&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="MaintenanceRegionAssetLink">
+	<schema name="&quot;Maintenance&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="1800" y="940"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<constraint name="MaintenanceRegionAssetLink_pk" type="pk-constr" table="&quot;Maintenance&quot;.&quot;MaintenanceRegionAssetLink&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="MaintenanceRegionAssetLink_has_one_MaintenanceRegion" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#77b6de"
+	 src-table="&quot;Maintenance&quot;.&quot;MaintenanceRegion&quot;"
+	 dst-table="&quot;Maintenance&quot;.&quot;MaintenanceRegionAssetLink&quot;"
+	 src-required="false" dst-required="false"/>
+
+<table name="AssetRouteLink">
+	<schema name="asm"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="1120" y="223"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<constraint name="AssetRouteLink_pk" type="pk-constr" table="asm.&quot;AssetRouteLink&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="AssetRouteLink_has_one_Route" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#fa6618"
+	 src-table="asm.&quot;Route&quot;"
+	 dst-table="asm.&quot;AssetRouteLink&quot;"
+	 src-required="false" dst-required="false"/>
+
+<table name="AssetPhotoLink">
+	<schema name="&quot;Media&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="1920" y="1420"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<constraint name="AssetPhotoLink_pk" type="pk-constr" table="&quot;Media&quot;.&quot;AssetPhotoLink&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="AssetPhotoLink_has_one_Photo" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#6f1d96"
+	 src-table="&quot;Media&quot;.&quot;Media&quot;"
+	 dst-table="&quot;Media&quot;.&quot;AssetPhotoLink&quot;"
+	 src-required="false" dst-required="false"/>
+
+<table name="UrbanRunoffEquipment">
+	<schema name="&quot;Equipments&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="1460" y="2080"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="flowDirection">
+		<type name="smallint"/>
+		<comment><![CDATA[virtaussuunta]]></comment>
+	</column>
+	<column name="pool">
+		<type name="bool"/>
+		<comment><![CDATA[allas]]></comment>
+	</column>
+	<constraint name="UrbanRunoffEqupiment_pk" type="pk-constr" table="&quot;Equipments&quot;.&quot;UrbanRunoffEquipment&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<usertype name="mountingtype" configuration="enumeration">
+	<schema name="&quot;Equipments&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<enumeration values="lightpole,pole,portal,trafficlight,wall,other"/>
+</usertype>
+
+<table name="TrafficCalming">
+	<schema name="&quot;Equipments&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="20" y="1960"/>
+	<column name="gid" not-null="true">
+		<type name="serial"/>
+	</column>
+	<constraint name="TrafficCalming_pk" type="pk-constr" table="&quot;Equipments&quot;.&quot;TrafficCalming&quot;">
+		<columns names="gid" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<usertype name="condition" configuration="enumeration">
+	<schema name="asm"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<enumeration values="excellent,good,mediocre,poor"/>
+</usertype>
+
+<table name="Owner">
+	<schema name="&quot;Actors&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="2140" y="340"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<constraint name="Owner_pk" type="pk-constr" table="&quot;Actors&quot;.&quot;Owner&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="Asset">
+	<schema name="asm"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="480" y="303"/>
+	<column name="gid" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="name">
+		<type name="varchar"/>
+	</column>
+	<column name="geom_poly">
+		<type name="geometry" spatial-type="MULTIPOLYGON" variation="1" srid="3879"/>
+	</column>
+	<column name="geom_line">
+		<type name="geometry" spatial-type="MULTILINESTRING" variation="3" srid="3879"/>
+	</column>
+	<column name="geom_point">
+		<type name="geometry" spatial-type="MULTIPOINT" variation="3" srid="3879"/>
+	</column>
+	<column name="landuse">
+		<type name="varchar"/>
+	</column>
+	<column name="address">
+		<type name="varchar"/>
+		<comment><![CDATA[Street name, for parks entrance address]]></comment>
+	</column>
+	<column name="validFrom">
+		<type name="date"/>
+		<comment><![CDATA[The time when the phenomenon started to exist in the real world.]]></comment>
+	</column>
+	<column name="validTo">
+		<type name="date"/>
+		<comment><![CDATA[The time from which the phenomenon no longer exists in the real world.]]></comment>
+	</column>
+	<column name="winterMaintenance">
+		<type name="bool"/>
+	</column>
+	<column name="addressNumber">
+		<type name="varchar"/>
+		<comment><![CDATA[Street house number]]></comment>
+	</column>
+	<column name="status">
+		<type name="asm.&quot;assetStatus&quot;"/>
+	</column>
+	<column name="note">
+		<type name="varchar"/>
+	</column>
+	<column name="additionalInfo">
+		<type name="varchar"/>
+	</column>
+	<column name="partClass">
+		<type name="smallint"/>
+	</column>
+	<column name="planNumber">
+		<type name="smallint"/>
+	</column>
+	<column name="condition">
+		<type name="asm.condition"/>
+	</column>
+	<constraint name="AssetArea_pk" type="pk-constr" table="asm.&quot;Asset&quot;">
+		<columns names="gid" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="RoadLayer_has_one_Asset" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#566ca8"
+	 src-table="asm.&quot;Asset&quot;"
+	 dst-table="asm.&quot;RoadLayer&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="AssetPhotoLink_has_one_Asset" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#7b24ed"
+	 src-table="asm.&quot;Asset&quot;"
+	 dst-table="&quot;Media&quot;.&quot;AssetPhotoLink&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="74.3738" y="-61.494"/>
+	</label>
+</relationship>
+
+<table name="Vegetation">
+	<schema name="asm"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="440" y="103"/>
+	<column name="gid">
+		<type name="serial"/>
+	</column>
+	<column name="vegetationType">
+		<type name="asm.vegetationtype"/>
+	</column>
+	<column name="vegetationCode">
+		<type name="numeric" length="5"/>
+	</column>
+	<column name="vegetationNumber">
+		<type name="smallint"/>
+		<comment><![CDATA[For arborists]]></comment>
+	</column>
+	<constraint name="vegetationnumber_uq" type="uq-constr" table="asm.&quot;Vegetation&quot;">
+		<columns names="vegetationNumber" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="SimplifiedCode">
+	<schema name="asm"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<comment><![CDATA[Simplified codes based on Infra codes]]></comment>
+	<position x="40" y="383"/>
+	<column name="code" not-null="true">
+		<type name="char" length="5"/>
+	</column>
+	<column name="name">
+		<type name="varchar"/>
+	</column>
+	<column name="group">
+		<type name="asm.simplifiedcodegroup"/>
+	</column>
+	<constraint name="SimplifiedCode_pk" type="pk-constr" table="asm.&quot;SimplifiedCode&quot;">
+		<columns names="code" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="RoadSurfaceMarking">
+	<schema name="&quot;Equipments&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<comment><![CDATA[Tiemerkinn�t - maalatut tienpinnassa]]></comment>
+	<position x="40" y="2320"/>
+	<column name="gid" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="roadMarkingCode">
+		<type name="smallint"/>
+	</column>
+	<constraint name="RoadSurfaceMarking_pk" type="pk-constr" table="&quot;Equipments&quot;.&quot;RoadSurfaceMarking&quot;">
+		<columns names="gid" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="InfraPart_has_one_Asset" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#47e9c7"
+	 src-table="asm.&quot;Asset&quot;"
+	 dst-table="asm.&quot;InfraPart&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<relationship name="AssetArea_has_one_InfraCode2017" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#4da974"
+	 src-table="asm.&quot;InfraCode2017&quot;"
+	 dst-table="asm.&quot;Asset&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="MaintenanceRegionAssetLink_has_one_Asset" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#50b468"
+	 src-table="asm.&quot;Asset&quot;"
+	 dst-table="&quot;Maintenance&quot;.&quot;MaintenanceRegionAssetLink&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="-4.12616" y="-57.3273"/>
+	</label>
+</relationship>
+
+<relationship name="MaintenanceContract_has_one_Asset" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#e6a720"
+	 src-table="asm.&quot;Asset&quot;"
+	 dst-table="&quot;Maintenance&quot;.&quot;MaintenanceContract&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<table name="RequestForTender">
+	<schema name="&quot;Management&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="1680" y="540"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="validFrom">
+		<type name="date"/>
+	</column>
+	<column name="validTo">
+		<type name="date"/>
+	</column>
+	<constraint name="RequestForTender_pk" type="pk-constr" table="&quot;Management&quot;.&quot;RequestForTender&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="TenderProposal">
+	<schema name="&quot;Management&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="2260" y="560"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="validFrom">
+		<type name="date"/>
+	</column>
+	<column name="validTo">
+		<type name="date"/>
+	</column>
+	<constraint name="TenderProposal_pk" type="pk-constr" table="&quot;Management&quot;.&quot;TenderProposal&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="Orderer">
+	<schema name="&quot;Actors&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="1660" y="240"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<constraint name="Orderer_pk" type="pk-constr" table="&quot;Actors&quot;.&quot;Orderer&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="AssetRouteLink_has_one_Asset" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#92fd39"
+	 src-table="asm.&quot;Asset&quot;"
+	 dst-table="asm.&quot;AssetRouteLink&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="dst-label">
+		<position x="83.7912" y="-20.2"/>
+	</label>
+</relationship>
+
+<relationship name="Owner_inherits_Actor" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#5827eb"
+	 src-table="&quot;Actors&quot;.&quot;Owner&quot;"
+	 dst-table="&quot;Actors&quot;.&quot;Actor&quot;"/>
+
+<relationship name="Orderer_inherits_Actor" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#35f535"
+	 src-table="&quot;Actors&quot;.&quot;Orderer&quot;"
+	 dst-table="&quot;Actors&quot;.&quot;Actor&quot;"/>
+
+<relationship name="Possessor_inherits_Actor" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#fa63b4"
+	 src-table="&quot;Actors&quot;.&quot;Possessor&quot;"
+	 dst-table="&quot;Actors&quot;.&quot;Actor&quot;"/>
+
+<relationship name="MaintenanceEvent_has_one_MaintenanceWork" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#eb9e41"
+	 src-table="&quot;Maintenance&quot;.&quot;MaintenanceWork&quot;"
+	 dst-table="&quot;Maintenance&quot;.&quot;MaintenanceContract&quot;"
+	 src-required="false" dst-required="false"/>
+
+<table name="Payer">
+	<schema name="&quot;Actors&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="1660" y="100"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<constraint name="Payer_pk" type="pk-constr" table="&quot;Actors&quot;.&quot;Payer&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="Maintainer_inherits_Actor" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#cf5c80"
+	 src-table="&quot;Actors&quot;.&quot;Maintainer&quot;"
+	 dst-table="&quot;Actors&quot;.&quot;Actor&quot;"/>
+
+<relationship name="Payer_inherits_Actor" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#6b2041"
+	 src-table="&quot;Actors&quot;.&quot;Payer&quot;"
+	 dst-table="&quot;Actors&quot;.&quot;Actor&quot;"/>
+
+<table name="Permission">
+	<schema name="&quot;Management&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="2280" y="700"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="validFrom">
+		<type name="date"/>
+	</column>
+	<column name="validTo">
+		<type name="date"/>
+	</column>
+	<constraint name="Permission_pk" type="pk-constr" table="&quot;Management&quot;.&quot;Permission&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="TenderProposal_has_one_RequestForTender" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#edf5b8"
+	 src-table="&quot;Management&quot;.&quot;RequestForTender&quot;"
+	 dst-table="&quot;Management&quot;.&quot;TenderProposal&quot;"
+	 src-required="false" dst-required="false"/>
+
+<table name="MaintenanceCard">
+	<schema name="&quot;Maintenance&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="1560" y="1040"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="class">
+		<type name="smallint"/>
+	</column>
+	<column name="description">
+		<type name="varchar"/>
+	</column>
+	<constraint name="MaintenanceClass_pk" type="pk-constr" table="&quot;Maintenance&quot;.&quot;MaintenanceCard&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<view name="InfraAreasGroupedByMaintenance" materialized="true">
+	<schema name="&quot;Reports&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="80" y="1120"/>
+	<reference alias="area">
+		<expression><![CDATA[SUM(ST_Area(geom_poly))]]></expression>
+	</reference>
+	<reference>
+		<expression><![CDATA[mcard.description]]></expression>
+	</reference>
+	<reference table="asm.&quot;Asset&quot;" alias="asset"/>
+	<reference table="&quot;Maintenance&quot;.&quot;MaintenanceCard&quot;" alias="mcard"/>
+	<reference>
+		<expression><![CDATA[asset."id_MaintenanceCard" = mcard.id
+GROUP BY mcard.description]]></expression>
+	</reference>
+	<expression type="select-exp">0,1</expression>
+	<expression type="from-exp">2,3</expression>
+	<expression type="simple-exp">4</expression>
+</view>
+
+<relationship name="Asset_has_one_Owner" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#defe47"
+	 src-table="&quot;Actors&quot;.&quot;Owner&quot;"
+	 dst-table="asm.&quot;Asset&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="Asset_has_one_Possessor" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#994d2f"
+	 src-table="&quot;Actors&quot;.&quot;Possessor&quot;"
+	 dst-table="asm.&quot;Asset&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="-30.9595" y="-47.6607"/>
+	</label>
+</relationship>
+
+<view name="HighWayAreasClassI" materialized="true">
+	<schema name="&quot;Reports&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="80" y="1200"/>
+	<reference>
+		<expression><![CDATA[SUM(ST_Area(geom_poly)) AS area]]></expression>
+	</reference>
+	<reference>
+		<expression><![CDATA[usetype.code,
+usetype.name AS usetypedescription,
+region.name AS maintenanceregion]]></expression>
+	</reference>
+	<reference table="asm.&quot;Asset&quot;" alias="asset"/>
+	<reference table="&quot;Maintenance&quot;.&quot;MaintenanceRegion&quot;" alias="region"/>
+	<reference table="&quot;Maintenance&quot;.&quot;MaintenanceRegionAssetLink&quot;" alias="link"/>
+	<reference table="asm.&quot;UseType&quot;" alias="usetype"/>
+	<reference table="asm.&quot;InfraPart&quot;" alias="infrapart"/>
+	<reference table="&quot;Maintenance&quot;.&quot;MaintenanceCard&quot;" alias="mcard"/>
+	<reference table="&quot;Actors&quot;.&quot;Maintainer&quot;" alias="maintainer"/>
+	<reference table="&quot;Actors&quot;.&quot;Possessor&quot;" alias="possessor"/>
+	<reference>
+		<expression><![CDATA[asset."id_Possessor" = possessor.id
+AND infrapart."gid_Asset" = asset.gid
+AND infrapart."code_UseType" = usetype.code
+AND link."gid_Asset" = asset.gid
+AND link."gid_MaintenanceRegion" = region.gid
+AND asset."id_MaintenanceCard" = mcard.id
+AND region."id_Maintainer" = maintainer.id
+AND possessor.code = 1
+AND maintainer.code IN (12,11,10,13,15,17,18,16)
+AND infrapart."functionalClass" = 1
+AND mcard.class IN (1,14)
+GROUP BY maintenanceregion,usetype.code
+ORDER BY maintenanceregion,usetype.code]]></expression>
+	</reference>
+	<expression type="select-exp">0,1</expression>
+	<expression type="from-exp">2,3,4,5,6,7,8,9</expression>
+	<expression type="simple-exp">10</expression>
+</view>
+
+<relationship name="Asset_has_one_MaintenanceClass" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#54ff55"
+	 src-table="&quot;Maintenance&quot;.&quot;MaintenanceCard&quot;"
+	 dst-table="asm.&quot;Asset&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="-67.2928" y="-52.1607"/>
+	</label>
+</relationship>
+
+<relationship name="RequestForTender_has_one_Orderer" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#33b23e"
+	 src-table="&quot;Actors&quot;.&quot;Orderer&quot;"
+	 dst-table="&quot;Management&quot;.&quot;RequestForTender&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="14.4587" y="-46.6607"/>
+	</label>
+</relationship>
+
+<relationship name="Permission_has_one_Owner" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#f2631d"
+	 src-table="&quot;Actors&quot;.&quot;Owner&quot;"
+	 dst-table="&quot;Management&quot;.&quot;Permission&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="9.86967" y="-45.6607"/>
+	</label>
+</relationship>
+
+<relationship name="Contract_has_one_Orderer" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#667d53"
+	 src-table="&quot;Actors&quot;.&quot;Orderer&quot;"
+	 dst-table="&quot;Management&quot;.&quot;Contract&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="64.0874" y="0.172673"/>
+	</label>
+</relationship>
+
+<relationship name="Contract_has_one_Payer" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#999ae5"
+	 src-table="&quot;Actors&quot;.&quot;Payer&quot;"
+	 dst-table="&quot;Management&quot;.&quot;Contract&quot;"
+	 src-required="false" dst-required="false"/>
+
+<table name="Mounting">
+	<schema name="&quot;Equipments&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="880" y="2740"/>
+	<column name="gid" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="mountingType">
+		<type name="&quot;Equipments&quot;.mountingtype"/>
+	</column>
+	<constraint name="LightPole_pk" type="pk-constr" table="&quot;Equipments&quot;.&quot;Mounting&quot;">
+		<columns names="gid" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="RoadMaintenanceDecision">
+	<schema name="&quot;Management&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="1680" y="720"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="decisionDate">
+		<type name="date"/>
+	</column>
+	<column name="validFrom">
+		<type name="date"/>
+	</column>
+	<column name="validTo">
+		<type name="date"/>
+	</column>
+	<constraint name="RoadMaintenanceDecision_pk" type="pk-constr" table="&quot;Management&quot;.&quot;RoadMaintenanceDecision&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="InfraPart_has_one_RoadMaintenanceDecision" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#28b11b"
+	 src-table="&quot;Management&quot;.&quot;RoadMaintenanceDecision&quot;"
+	 dst-table="asm.&quot;InfraPart&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="-103.022" y="2.17267"/>
+	</label>
+</relationship>
+
+<table name="Decider">
+	<schema name="&quot;Actors&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="2360" y="100"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<constraint name="Decider_pk" type="pk-constr" table="&quot;Actors&quot;.&quot;Decider&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="Decider_inherits_Actor" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#c0d36a"
+	 src-table="&quot;Actors&quot;.&quot;Decider&quot;"
+	 dst-table="&quot;Actors&quot;.&quot;Actor&quot;"/>
+
+<relationship name="RoadMaintenanceDecision_has_one_Decider" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#5ae9ce"
+	 src-table="&quot;Actors&quot;.&quot;Decider&quot;"
+	 dst-table="&quot;Management&quot;.&quot;RoadMaintenanceDecision&quot;"
+	 src-required="false" dst-required="false"/>
+
+<table name="StreetLight">
+	<schema name="&quot;Equipments&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="360" y="2720"/>
+	<column name="gid" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="lightTypeCode">
+		<type name="varchar"/>
+	</column>
+	<column name="phase">
+		<type name="varchar"/>
+	</column>
+	<constraint name="StreetLight_pk" type="pk-constr" table="&quot;Equipments&quot;.&quot;StreetLight&quot;">
+		<columns names="gid" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="gid_Mounting" index="3"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="Mounting_fk" index="1"/>
+		<object name="StreetLight_uq" index="2"/>
+	</customidxs>
+</table>
+
+<relationship name="StreetLight_has_one_Mounting" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#fe3788"
+	 src-table="&quot;Equipments&quot;.&quot;Mounting&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;StreetLight&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<table name="Symbol">
+	<schema name="&quot;Media&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="1920" y="1720"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="imageURL">
+		<type name="varchar"/>
+	</column>
+	<constraint name="Symbol_pk" type="pk-constr" table="&quot;Media&quot;.&quot;Symbol&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="Bridge">
+	<schema name="asm"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="60" y="923"/>
+</table>
+
+<relationship name="Bridge_inherits_InfraPart" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#8b97a6"
+	 src-table="asm.&quot;Bridge&quot;"
+	 dst-table="asm.&quot;InfraPart&quot;"/>
+
+<table name="Underpass">
+	<schema name="asm"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="40" y="763"/>
+</table>
+
+<relationship name="Underpass_inherits_InfraPart" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#9d490a"
+	 src-table="asm.&quot;Underpass&quot;"
+	 dst-table="asm.&quot;InfraPart&quot;"/>
+
+<relationship name="CenterLine_has_one_InfraPart" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#93664a"
+	 src-table="asm.&quot;InfraPart&quot;"
+	 dst-table="asm.&quot;CenterLine&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<table name="MaintenanceArea">
+	<schema name="&quot;Maintenance&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<comment><![CDATA[The "cookie -cutter" table that holds separate geometries for map making and analyses.]]></comment>
+	<position x="1560" y="1180"/>
+	<column name="gid" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="geom">
+		<type name="geometry" spatial-type="MULTIPOLYGON" variation="1" srid="3879"/>
+	</column>
+	<column name="type">
+		<type name="smallint"/>
+	</column>
+	<column name="name">
+		<type name="varchar"/>
+	</column>
+	<constraint name="MaintenanceArea_pk" type="pk-constr" table="&quot;Maintenance&quot;.&quot;MaintenanceArea&quot;">
+		<columns names="gid" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="TrafficSign">
+	<schema name="&quot;Equipments&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="1440" y="2460"/>
+	<column name="gid" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="signtype">
+		<type name="smallint"/>
+		<comment><![CDATA[See http://www.liikennevirasto.fi/tieverkko/liikennemerkit#.WUEriR9Nzc-]]></comment>
+	</column>
+	<column name="signtext">
+		<type name="varchar"/>
+	</column>
+	<column name="viewingAngle">
+		<type name="smallint"/>
+		<comment><![CDATA[Viewing angle]]></comment>
+	</column>
+	<column name="horizontalPlace">
+		<type name="smallint"/>
+		<comment><![CDATA[Horiozontal order placement compared to other traffic signs mounted to same mounting]]></comment>
+	</column>
+	<column name="verticalPlace">
+		<type name="smallint"/>
+		<comment><![CDATA[Vertical order placement compared to other traffic signs mounted to same mounting]]></comment>
+	</column>
+	<constraint name="TrafficSign_pk" type="pk-constr" table="&quot;Equipments&quot;.&quot;TrafficSign&quot;">
+		<columns names="gid" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="Equipment_has_one_Asset" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#0ea970"
+	 src-table="asm.&quot;Asset&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="-3.797" y="-52.9702"/>
+	</label>
+</relationship>
+
+<relationship name="Mounting_has_one_InfraPart" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#88e1e8"
+	 src-table="asm.&quot;InfraPart&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;Mounting&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<relationship name="AssetArea_has_one_EspooCode" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#f2650a"
+	 src-table="asm.&quot;SimplifiedCode&quot;"
+	 dst-table="asm.&quot;Asset&quot;"
+	 src-required="false" dst-required="false"/>
+
+<table name="RoadSurface">
+	<schema name="asm"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="80" y="143"/>
+	<column name="gid" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="material">
+		<type name="varchar"/>
+	</column>
+	<column name="thickness">
+		<type name="smallint"/>
+	</column>
+	<constraint name="RoadSurface_pk" type="pk-constr" table="asm.&quot;RoadSurface&quot;">
+		<columns names="gid" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="PlayGroundEquipment">
+	<schema name="&quot;Equipments&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="40" y="1740"/>
+</table>
+
+<view name="TreeMaintenanceWorks" materialized="true">
+	<schema name="&quot;Reports&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="700" y="1220"/>
+	<reference table="&quot;Maintenance&quot;.&quot;MaintenanceWork&quot;" column="type"/>
+	<reference table="asm.&quot;Vegetation&quot;" column="vegetationCode"/>
+	<reference table="asm.&quot;Vegetation&quot;" column="vegetationNumber"/>
+	<reference table="asm.&quot;Vegetation&quot;" column="vegetationType" column-alias="vegetype"/>
+	<reference table="&quot;Maintenance&quot;.&quot;MaintenanceWork&quot;"/>
+	<reference table="asm.&quot;Vegetation&quot;"/>
+	<reference>
+		<expression><![CDATA[asm."Vegetation"."vegetationType" = 'tree']]></expression>
+	</reference>
+	<expression type="select-exp">0,1,2,3</expression>
+	<expression type="from-exp">4,5</expression>
+	<expression type="simple-exp">6</expression>
+</view>
+
+<relationship name="&quot;rel_TreeMaintenanceWorks_MaintenanceWork&quot;" type="reltv"
+	 src-table="&quot;Reports&quot;.&quot;TreeMaintenanceWorks&quot;"
+	 dst-table="&quot;Maintenance&quot;.&quot;MaintenanceWork&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="&quot;rel_TreeMaintenanceWorks_Vegetation&quot;" type="reltv"
+	 src-table="&quot;Reports&quot;.&quot;TreeMaintenanceWorks&quot;"
+	 dst-table="asm.&quot;Vegetation&quot;"
+	 src-required="false" dst-required="false"/>
+
+<table name="Furniture">
+	<schema name="&quot;Equipments&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="1040" y="1520"/>
+</table>
+
+<relationship name="BenchTable_inherits_Equipment" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#d62134"
+	 src-table="&quot;Equipments&quot;.&quot;Furniture&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"/>
+
+<table name="Advertisement">
+	<schema name="&quot;Equipments&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="1440" y="1720"/>
+</table>
+
+<relationship name="Advertisement_inherits_Equipment" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#8372e6"
+	 src-table="&quot;Equipments&quot;.&quot;Advertisement&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"/>
+
+<table name="Art">
+	<schema name="&quot;Equipments&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="1440" y="1560"/>
+</table>
+
+<relationship name="Art_inherits_Equipment" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#bb9bc1"
+	 src-table="&quot;Equipments&quot;.&quot;Art&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"/>
+
+<table name="Crossing">
+	<schema name="&quot;Equipments&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="40" y="2140"/>
+	<column name="gid" not-null="true">
+		<type name="serial"/>
+	</column>
+	<constraint name="Crossing_pk" type="pk-constr" table="&quot;Equipments&quot;.&quot;Crossing&quot;">
+		<columns names="gid" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="Crossing_inherits_Equipment" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#6aa6b5"
+	 src-table="&quot;Equipments&quot;.&quot;Crossing&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"/>
+
+<table name="Structure">
+	<schema name="&quot;Equipments&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="40" y="1560"/>
+</table>
+
+<relationship name="Structure_inherits_Equipment" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#9ce4a0"
+	 src-table="&quot;Equipments&quot;.&quot;Structure&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"/>
+
+<table name="TrashEquipment">
+	<schema name="&quot;Equipments&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="1440" y="1880"/>
+</table>
+
+<relationship name="TrashEquipment_inherits_Equipment" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#e1514f"
+	 src-table="&quot;Equipments&quot;.&quot;TrashEquipment&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"/>
+
+<view name="PlaygroundEquipmentList" materialized="true">
+	<schema name="&quot;Reports&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="340" y="1220"/>
+	<reference>
+		<expression><![CDATA[equip.model,
+  equipasset.name,
+  equipasset.address,
+  equipasset."addressNumber"
+FROM
+   asm."Asset" AS equipasset,
+   "Equipments"."PlayGroundEquipment" AS equip
+WHERE
+   equip."gid_Asset" = equipasset.gid
+AND equipasset.landuse = 'park'
+   GROUP BY equipasset.name, equipasset.address,
+equipasset."addressNumber", equip.model
+ORDER BY equipasset.name, equip.model;]]></expression>
+	</reference>
+	<expression type="select-exp">0</expression>
+</view>
+
+<relationship name="PlayGroundEquipment_inherits_Equipment" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#e9f9c0"
+	 src-table="&quot;Equipments&quot;.&quot;PlayGroundEquipment&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"/>
+
+<table name="StreetSign">
+	<schema name="&quot;Equipments&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="1440" y="2740"/>
+</table>
+
+<table name="Fence">
+	<schema name="&quot;Equipments&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="360" y="1640"/>
+</table>
+
+<relationship name="TrafficSign_has_one_Mounting" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#3b42f9"
+	 src-table="&quot;Equipments&quot;.&quot;Mounting&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;TrafficSign&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="TrafficSign_inherits_Equipment" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#495918"
+	 src-table="&quot;Equipments&quot;.&quot;TrafficSign&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"/>
+
+<relationship name="StreetLight_inherits_Equipment" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#129f4c"
+	 src-table="&quot;Equipments&quot;.&quot;StreetLight&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"/>
+
+<relationship name="Mounting_inherits_Equipment" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#261f57"
+	 src-table="&quot;Equipments&quot;.&quot;Mounting&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"/>
+
+<table name="StreetLightConductor">
+	<schema name="&quot;Equipments&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="20" y="2540"/>
+</table>
+
+<relationship name="StreetLightConductor_inherits_Equipment" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#d7281d"
+	 src-table="&quot;Equipments&quot;.&quot;StreetLightConductor&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"/>
+
+<relationship name="StreetSign_inherits_Equipment" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#383b94"
+	 src-table="&quot;Equipments&quot;.&quot;StreetSign&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;">
+	<special-pk-cols indexes="0"/>
+</relationship>
+
+<relationship name="Fence_inherits_Equipment" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#b77967"
+	 src-table="&quot;Equipments&quot;.&quot;Fence&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;">
+	<label ref-type="name-label">
+		<position x="54.0063" y="-54.123"/>
+	</label>
+</relationship>
+
+<table name="StreetLightStation">
+	<schema name="&quot;Equipments&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="20" y="2700"/>
+</table>
+
+<relationship name="StreetLightStation_inherits_Equipment" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#d1e631"
+	 src-table="&quot;Equipments&quot;.&quot;StreetLightStation&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"/>
+
+<relationship name="RoadSurfaceMarking_inherits_Equipment" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#199b19"
+	 src-table="&quot;Equipments&quot;.&quot;RoadSurfaceMarking&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"/>
+
+<table name="NoiseBarrier">
+	<schema name="&quot;Equipments&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="700" y="1540"/>
+</table>
+
+<relationship name="NoiseBarrier_inherits_Equipment" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#414f20"
+	 src-table="&quot;Equipments&quot;.&quot;NoiseBarrier&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"/>
+
+<relationship name="StreetSign_has_one_Mounting" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#40ebc2"
+	 src-table="&quot;Equipments&quot;.&quot;Mounting&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;StreetSign&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="Symbol_has_one_Equipment" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#06be0d"
+	 src-table="&quot;Equipments&quot;.&quot;Equipment&quot;"
+	 dst-table="&quot;Media&quot;.&quot;Symbol&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="Vegetation_has_one_Asset" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#de9ac0"
+	 src-table="asm.&quot;Asset&quot;"
+	 dst-table="asm.&quot;Vegetation&quot;"
+	 src-required="false" dst-required="false"/>
+
+<table name="TrafficLight">
+	<schema name="&quot;Equipments&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="1440" y="2280"/>
+</table>
+
+<relationship name="TrafficLight_inherits_Equipment" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#9f1760"
+	 src-table="&quot;Equipments&quot;.&quot;TrafficLight&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"/>
+
+<relationship name="Equipment_has_one_InfraPart" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#f55d66"
+	 src-table="asm.&quot;InfraPart&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="UrbanRunoffEquipment_inherits_Equipment" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#37daf1"
+	 src-table="&quot;Equipments&quot;.&quot;UrbanRunoffEquipment&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"/>
+
+<relationship name="TrafficCalming_inherits_Equipment" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#ea3938"
+	 src-table="&quot;Equipments&quot;.&quot;TrafficCalming&quot;"
+	 dst-table="&quot;Equipments&quot;.&quot;Equipment&quot;"/>
+
+<usertype name="material" configuration="enumeration">
+	<schema name="&quot;Equipments&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<enumeration values="bush,metal,wood,plastic,other"/>
+</usertype>
+
+<view name="RoadLengthsBySurfaceMaterial" materialized="true">
+	<schema name="&quot;Reports&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="80" y="1280"/>
+	<reference>
+		<expression><![CDATA[SUM(ST_Length(cline.geom)) / 1000  AS length]]></expression>
+	</reference>
+	<reference>
+		<expression><![CDATA[rsurface.material]]></expression>
+	</reference>
+	<reference>
+		<expression><![CDATA[infrapart."roadClass" AS roadclass]]></expression>
+	</reference>
+	<reference table="asm.&quot;CenterLine&quot;" alias="cline"/>
+	<reference table="asm.&quot;RoadSurface&quot;" alias="rsurface"/>
+	<reference table="asm.&quot;Asset&quot;" alias="asset"/>
+	<reference table="asm.&quot;InfraPart&quot;" alias="infrapart"/>
+	<reference>
+		<expression><![CDATA[cline."gid_InfraPart" = infrapart.gid
+AND rsurface."gid_Asset" = asset.gid
+AND infrapart."gid_Asset" = asset.gid
+GROUP BY rsurface.material,infrapart."roadClass"
+ORDER BY infrapart."roadClass",rsurface.material]]></expression>
+	</reference>
+	<expression type="select-exp">0,1,2</expression>
+	<expression type="from-exp">3,4,5,6</expression>
+	<expression type="simple-exp">7</expression>
+</view>
+
+<relationship name="RoadSurface_has_one_Asset" type="rel11"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#e334fb"
+	 src-table="asm.&quot;Asset&quot;"
+	 dst-table="asm.&quot;RoadSurface&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="MaintenanceContract_inherits_Contract" type="relgen"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#6e1ce0"
+	 src-table="&quot;Maintenance&quot;.&quot;MaintenanceContract&quot;"
+	 dst-table="&quot;Management&quot;.&quot;Contract&quot;"/>
+
+<view name="TrafficSignDeleteReport" materialized="true">
+	<schema name="&quot;History&quot;"/>
+	<role name="&quot;asmAdmin&quot;"/>
+	<position x="1080" y="1280"/>
+	<reference>
+		<expression><![CDATA[  histevent."eventType" AS eventtype,
+  extract(month from histevent.date) AS month,
+  trafficsign.model AS model,
+  actor.name AS maintainer
+FROM
+   "History"."HistoryEvent" AS histevent,
+   "Equipments"."TrafficSign" AS trafficsign,
+   "Actors"."Maintainer" AS actor,
+   "Maintenance"."MaintenanceRegion" AS maintregion,
+   "Maintenance"."MaintenanceRegionAssetLink" AS assetmregionlink,
+   asm."Asset" AS asset
+WHERE
+  actor.id = maintregion."id_Maintainer"
+  AND assetmregionlink."gid_MaintenanceRegion" = maintregion."id_Maintainer"
+  AND assetmregionlink."gid_Asset" = asset.gid
+  AND trafficsign."gid_Asset" = asset.gid
+  AND histevent."TableName" = 'TrafficSign'
+  AND histevent."eventType" = 'delete'
+  GROUP BY eventtype,month, model, maintainer
+  ORDER BY eventtype,month, model, maintainer]]></expression>
+	</reference>
+	<expression type="select-exp">0</expression>
+</view>
+
+<permission>
+	<object name="asm" type="schema"/>
+	<roles names="&quot;asmUser&quot;"/>
+	<privileges create="true" usage="true"/>
+</permission>
+<permission>
+	<object name="&quot;Maintenance&quot;" type="schema"/>
+	<roles names="&quot;asmUser&quot;"/>
+	<privileges create="true" usage="true"/>
+</permission>
+<permission>
+	<object name="&quot;History&quot;" type="schema"/>
+	<roles names="&quot;asmUser&quot;"/>
+	<privileges create="true" usage="true"/>
+</permission>
+<permission>
+	<object name="&quot;Actors&quot;" type="schema"/>
+	<roles names="&quot;asmUser&quot;"/>
+	<privileges create="true" usage="true"/>
+</permission>
+<permission>
+	<object name="&quot;Management&quot;" type="schema"/>
+	<roles names="&quot;asmUser&quot;"/>
+	<privileges create="true" usage="true"/>
+</permission>
+<permission>
+	<object name="&quot;Media&quot;" type="schema"/>
+	<roles names="&quot;asmUser&quot;"/>
+	<privileges create="true" usage="true"/>
+</permission>
+<permission>
+	<object name="&quot;Reports&quot;" type="schema"/>
+	<roles names="&quot;asmUser&quot;"/>
+	<privileges create="true" usage="true"/>
+</permission>
+<permission>
+	<object name="&quot;Equipments&quot;" type="schema"/>
+	<roles names="&quot;asmUser&quot;"/>
+	<privileges create="true" usage="true"/>
+</permission>
+</dbmodel>
