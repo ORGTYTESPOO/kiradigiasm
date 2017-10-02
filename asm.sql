@@ -153,7 +153,7 @@ ALTER TABLE asm."RoadLayer" OWNER TO "asmAdmin";
 -- object: asm."assetStatus" | type: TYPE --
 -- DROP TYPE IF EXISTS asm."assetStatus" CASCADE;
 CREATE TYPE asm."assetStatus" AS
- ENUM ('planned','finished','removed');
+ ENUM ('planned','finished','removed','repaired');
 -- ddl-end --
 ALTER TYPE asm."assetStatus" OWNER TO "asmAdmin";
 -- ddl-end --

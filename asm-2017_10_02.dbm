@@ -138,7 +138,7 @@ GRANT SELECT,INSERT,UPDATE
 <usertype name="assetStatus" configuration="enumeration">
 	<schema name="asm"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<enumeration values="planned,finished,removed"/>
+	<enumeration values="planned,finished,removed,repaired"/>
 </usertype>
 
 <table name="MaintenanceRegion">
