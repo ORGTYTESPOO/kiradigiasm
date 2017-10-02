@@ -153,7 +153,7 @@ ALTER TABLE asm."RoadLayer" OWNER TO "asmAdmin";
 -- object: asm."assetStatus" | type: TYPE --
 -- DROP TYPE IF EXISTS asm."assetStatus" CASCADE;
 CREATE TYPE asm."assetStatus" AS
- ENUM ('planned','finished','removed','repaired');
+ ENUM ('finished','underconstruction','planned','removed','repaired');
 -- ddl-end --
 ALTER TYPE asm."assetStatus" OWNER TO "asmAdmin";
 -- ddl-end --
@@ -283,9 +283,9 @@ CREATE TABLE asm."InfraPart"(
 	type asm.infraparttype,
 	"functionalClass" smallint,
 	"roadClass" smallint,
-	"code_UseType" char(5),
 	"gid_Asset" integer,
 	"id_RoadMaintenanceDecision" integer,
+	"code_UseType" char(5),
 	CONSTRAINT "Surface_pk" PRIMARY KEY (gid)
 
 );

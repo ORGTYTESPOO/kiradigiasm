@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.2" last-position="0,253" last-zoom="1.05"
+<dbmodel pgmodeler-ver="0.8.2" last-position="0,703" last-zoom="1.05"
 	 default-owner="postgres">
 <role name="asmAdmin">
 </role>
@@ -58,7 +58,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="InfraCode2017">
 	<schema name="asm"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="40" y="460"/>
+	<position x="40" y="463"/>
 	<column name="code" not-null="true">
 		<type name="char" length="5"/>
 	</column>
@@ -120,7 +120,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="RoadLayer">
 	<schema name="asm"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="60" y="240"/>
+	<position x="60" y="243"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -138,7 +138,7 @@ GRANT SELECT,INSERT,UPDATE
 <usertype name="assetStatus" configuration="enumeration">
 	<schema name="asm"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<enumeration values="planned,finished,removed,repaired"/>
+	<enumeration values="finished,underconstruction,planned,removed,repaired"/>
 </usertype>
 
 <table name="MaintenanceRegion">
@@ -233,7 +233,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="CenterLine">
 	<schema name="asm"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="20" y="620"/>
+	<position x="20" y="623"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -248,7 +248,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="Route">
 	<schema name="asm"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1100" y="100"/>
+	<position x="1100" y="103"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -323,12 +323,15 @@ GRANT SELECT,INSERT,UPDATE
 	</constraint>
 
 	<customidxs object-type="column">
-		<object name="code_UseType" index="5"/>
+		<object name="gid_Asset" index="5"/>
+		<object name="id_RoadMaintenanceDecision" index="6"/>
 	</customidxs>
 
 	<customidxs object-type="constraint">
+		<object name="Asset_fk" index="1"/>
 		<object name="InfraPart_uq" index="2"/>
-		<object name="UseType_fk" index="1"/>
+		<object name="InfraPart_uq1" index="4"/>
+		<object name="RoadMaintenanceDecision_fk" index="3"/>
 	</customidxs>
 </table>
 
@@ -562,7 +565,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="AssetRouteLink">
 	<schema name="asm"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="1120" y="220"/>
+	<position x="1120" y="223"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -666,7 +669,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="Asset">
 	<schema name="asm"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="480" y="300"/>
+	<position x="480" y="303"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -768,7 +771,7 @@ GRANT SELECT,INSERT,UPDATE
 <table name="Vegetation">
 	<schema name="asm"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="440" y="100"/>
+	<position x="440" y="103"/>
 	<column name="gid">
 		<type name="serial"/>
 	</column>
@@ -791,7 +794,7 @@ GRANT SELECT,INSERT,UPDATE
 	<schema name="asm"/>
 	<role name="&quot;asmAdmin&quot;"/>
 	<comment><![CDATA[Simplified codes based on Infra codes]]></comment>
-	<position x="40" y="380"/>
+	<position x="40" y="383"/>
 	<column name="code" not-null="true">
 		<type name="char" length="5"/>
 	</column>
@@ -1305,7 +1308,7 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 <table name="Bridge">
 	<schema name="asm"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="60" y="920"/>
+	<position x="60" y="923"/>
 </table>
 
 <relationship name="Bridge_inherits_InfraPart" type="relgen"
@@ -1317,7 +1320,7 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 <table name="Underpass">
 	<schema name="asm"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="40" y="760"/>
+	<position x="40" y="763"/>
 </table>
 
 <relationship name="Underpass_inherits_InfraPart" type="relgen"
@@ -1430,7 +1433,7 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 <table name="RoadSurface">
 	<schema name="asm"/>
 	<role name="&quot;asmAdmin&quot;"/>
-	<position x="80" y="140"/>
+	<position x="80" y="143"/>
 	<column name="gid" not-null="true">
 		<type name="serial"/>
 	</column>
