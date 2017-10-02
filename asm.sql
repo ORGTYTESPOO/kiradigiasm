@@ -628,7 +628,7 @@ ALTER TYPE asm.wintermaintenance OWNER TO "asmAdmin";
 -- DROP TABLE IF EXISTS asm."Asset" CASCADE;
 CREATE TABLE asm."Asset"(
 	gid serial NOT NULL,
-	dataid smallint,
+	dataid bigint,
 	name varchar,
 	geom_poly geometry(MULTIPOLYGONZ, 3879),
 	geom_line geometry(MULTILINESTRINGZM, 3879),
@@ -1236,7 +1236,7 @@ ALTER TABLE "Maintenance"."MaintenanceArea" OWNER TO "asmAdmin";
 -- DROP TABLE IF EXISTS "Equipments"."TrafficSign" CASCADE;
 CREATE TABLE "Equipments"."TrafficSign"(
 	gid serial NOT NULL,
-	signtype smallint,
+	signtype varchar,
 	signtext varchar,
 	"viewingAngle" smallint,
 	"horizontalPlace" smallint,

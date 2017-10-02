@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.2" last-position="0,703" last-zoom="1.05"
+<dbmodel pgmodeler-ver="0.8.2" last-position="859,2220" last-zoom="1.05"
 	 default-owner="postgres">
 <role name="asmAdmin">
 </role>
@@ -674,7 +674,7 @@ GRANT SELECT,INSERT,UPDATE
 		<type name="serial"/>
 	</column>
 	<column name="dataid">
-		<type name="smallint"/>
+		<type name="bigint"/>
 		<comment><![CDATA[id that helps insert data when it is split into multiple tales]]></comment>
 	</column>
 	<column name="name">
@@ -1372,7 +1372,7 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 		<type name="serial"/>
 	</column>
 	<column name="signtype">
-		<type name="smallint"/>
+		<type name="varchar"/>
 		<comment><![CDATA[See http://www.liikennevirasto.fi/tieverkko/liikennemerkit#.WUEriR9Nzc-]]></comment>
 	</column>
 	<column name="signtext">
@@ -1393,6 +1393,15 @@ ORDER BY maintenanceregion,usetype.code]]></expression>
 	<constraint name="TrafficSign_pk" type="pk-constr" table="&quot;Equipments&quot;.&quot;TrafficSign&quot;">
 		<columns names="gid" ref-type="src-columns"/>
 	</constraint>
+
+	<customidxs object-type="column">
+		<object name="gid_Mounting" index="6"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="Mounting_fk" index="1"/>
+		<object name="TrafficSign_uq" index="2"/>
+	</customidxs>
 </table>
 
 <relationship name="Equipment_has_one_Asset" type="rel11"
