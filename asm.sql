@@ -5,22 +5,21 @@
 -- Model Author: ---
 
 -- object: "asmAdmin" | type: ROLE --
-DROP ROLE IF EXISTS "asmAdmin";
+-- DROP ROLE IF EXISTS "asmAdmin";
 CREATE ROLE "asmAdmin" WITH ;
 -- ddl-end --
 
 -- object: "asmUser" | type: ROLE --
-DROP ROLE IF EXISTS "asmUser";
+-- DROP ROLE IF EXISTS "asmUser";
 CREATE ROLE "asmUser" WITH ;
 -- ddl-end --
 
-GRANT "asmAdmin" TO [youradmin];
 
 -- Database creation must be done outside an multicommand file.
 -- These commands were put in this file only for convenience.
--- -- object: "asm-2017-07-07" | type: DATABASE --
--- -- DROP DATABASE IF EXISTS "asm-2017-07-07";
--- CREATE DATABASE "asm-2017-07-07"
+-- -- object: "asm-2017-10-02" | type: DATABASE --
+-- -- DROP DATABASE IF EXISTS "asm-2017-10-02";
+-- CREATE DATABASE "asm-2017-10-02"
 -- 	OWNER = "asmAdmin"
 -- ;
 -- -- ddl-end --
@@ -116,7 +115,7 @@ ALTER TYPE asm."SurfaceMaterial" OWNER TO "asmAdmin";
 -- object: asm.infraparttype | type: TYPE --
 -- DROP TYPE IF EXISTS asm.infraparttype CASCADE;
 CREATE TYPE asm.infraparttype AS
- ENUM ('underpasstube','underpassrapidtransit','underpasspedestrian','underpassrailway');
+ ENUM ('trafficarea','greenspace','specialarea');
 -- ddl-end --
 ALTER TYPE asm.infraparttype OWNER TO "asmAdmin";
 -- ddl-end --
@@ -1761,49 +1760,49 @@ WHERE
 ALTER MATERIALIZED VIEW "History"."TrafficSignDeleteReport" OWNER TO "asmAdmin";
 -- ddl-end --
 
--- object: grant_27f213776c | type: PERMISSION --
+-- object: grant_1fda9b6f72 | type: PERMISSION --
 GRANT CREATE,USAGE
    ON SCHEMA asm
    TO "asmUser";
 -- ddl-end --
 
--- object: grant_7d00dc1a29 | type: PERMISSION --
+-- object: grant_6d6c4d6921 | type: PERMISSION --
 GRANT CREATE,USAGE
    ON SCHEMA "Maintenance"
    TO "asmUser";
 -- ddl-end --
 
--- object: grant_90613676cf | type: PERMISSION --
+-- object: grant_aba7489c4c | type: PERMISSION --
 GRANT CREATE,USAGE
    ON SCHEMA "History"
    TO "asmUser";
 -- ddl-end --
 
--- object: grant_51ba5c6772 | type: PERMISSION --
+-- object: grant_d22cc8956c | type: PERMISSION --
 GRANT CREATE,USAGE
    ON SCHEMA "Actors"
    TO "asmUser";
 -- ddl-end --
 
--- object: grant_231e59a105 | type: PERMISSION --
+-- object: grant_19ae0e0204 | type: PERMISSION --
 GRANT CREATE,USAGE
    ON SCHEMA "Management"
    TO "asmUser";
 -- ddl-end --
 
--- object: grant_a7f36d8c15 | type: PERMISSION --
+-- object: grant_380537e92e | type: PERMISSION --
 GRANT CREATE,USAGE
    ON SCHEMA "Media"
    TO "asmUser";
 -- ddl-end --
 
--- object: grant_8f6c948e64 | type: PERMISSION --
+-- object: grant_8725a9f3cf | type: PERMISSION --
 GRANT CREATE,USAGE
    ON SCHEMA "Reports"
    TO "asmUser";
 -- ddl-end --
 
--- object: grant_8905e2dbc4 | type: PERMISSION --
+-- object: grant_c774ca5a05 | type: PERMISSION --
 GRANT CREATE,USAGE
    ON SCHEMA "Equipments"
    TO "asmUser";
