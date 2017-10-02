@@ -616,6 +616,14 @@ CREATE TABLE "Actors"."Owner"(
 ALTER TABLE "Actors"."Owner" OWNER TO "asmAdmin";
 -- ddl-end --
 
+-- object: asm.wintermaintenance | type: TYPE --
+-- DROP TYPE IF EXISTS asm.wintermaintenance CASCADE;
+CREATE TYPE asm.wintermaintenance AS
+ ENUM ('nowintermaintenance','entirelyonwintermaintenance','partlyonwintermaintenance');
+-- ddl-end --
+ALTER TYPE asm.wintermaintenance OWNER TO "asmAdmin";
+-- ddl-end --
+
 -- object: asm."Asset" | type: TABLE --
 -- DROP TABLE IF EXISTS asm."Asset" CASCADE;
 CREATE TABLE asm."Asset"(
@@ -629,7 +637,7 @@ CREATE TABLE asm."Asset"(
 	address varchar,
 	"validFrom" date,
 	"validTo" date,
-	"winterMaintenance" bool,
+	"winterMaintenance" asm.wintermaintenance,
 	"addressNumber" varchar,
 	status asm."assetStatus",
 	note varchar,
@@ -657,18 +665,6 @@ COMMENT ON COLUMN asm."Asset"."validTo" IS 'The time from which the phenomenon n
 COMMENT ON COLUMN asm."Asset"."addressNumber" IS 'Street house number';
 -- ddl-end --
 ALTER TABLE asm."Asset" OWNER TO "asmAdmin";
--- ddl-end --
-
--- object: "Asset_fk" | type: CONSTRAINT --
--- ALTER TABLE asm."RoadLayer" DROP CONSTRAINT IF EXISTS "Asset_fk" CASCADE;
-ALTER TABLE asm."RoadLayer" ADD CONSTRAINT "Asset_fk" FOREIGN KEY ("gid_Asset")
-REFERENCES asm."Asset" (gid) MATCH FULL
-ON DELETE SET NULL ON UPDATE CASCADE;
--- ddl-end --
-
--- object: "RoadLayer_uq" | type: CONSTRAINT --
--- ALTER TABLE asm."RoadLayer" DROP CONSTRAINT IF EXISTS "RoadLayer_uq" CASCADE;
-ALTER TABLE asm."RoadLayer" ADD CONSTRAINT "RoadLayer_uq" UNIQUE ("gid_Asset");
 -- ddl-end --
 
 -- object: "Asset_fk" | type: CONSTRAINT --
@@ -1758,6 +1754,18 @@ WHERE
   ORDER BY eventtype,month, model, maintainer;
 -- ddl-end --
 ALTER MATERIALIZED VIEW "History"."TrafficSignDeleteReport" OWNER TO "asmAdmin";
+-- ddl-end --
+
+-- object: "Asset_fk" | type: CONSTRAINT --
+-- ALTER TABLE asm."RoadLayer" DROP CONSTRAINT IF EXISTS "Asset_fk" CASCADE;
+ALTER TABLE asm."RoadLayer" ADD CONSTRAINT "Asset_fk" FOREIGN KEY ("gid_Asset")
+REFERENCES asm."Asset" (gid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: "RoadLayer_uq" | type: CONSTRAINT --
+-- ALTER TABLE asm."RoadLayer" DROP CONSTRAINT IF EXISTS "RoadLayer_uq" CASCADE;
+ALTER TABLE asm."RoadLayer" ADD CONSTRAINT "RoadLayer_uq" UNIQUE ("gid_Asset");
 -- ddl-end --
 
 -- object: grant_1fda9b6f72 | type: PERMISSION --
