@@ -1,4 +1,3 @@
-
 -- Database generated with pgModeler (PostgreSQL Database Modeler).
 -- pgModeler  version: 0.8.2
 -- PostgreSQL version: 9.5
@@ -16,7 +15,6 @@ CREATE ROLE "asmUser" WITH ;
 -- ddl-end --
 
 GRANT "asmAdmin" TO [youradmin];
-
 
 -- Database creation must be done outside an multicommand file.
 -- These commands were put in this file only for convenience.
@@ -102,7 +100,7 @@ ALTER TABLE asm."InfraCode2017" OWNER TO "asmAdmin";
 -- object: asm.equipmentgroup | type: TYPE --
 -- DROP TYPE IF EXISTS asm.equipmentgroup CASCADE;
 CREATE TYPE asm.equipmentgroup AS
- ENUM ('trash','play','sport','furniture','art','fixremove','trafficsign','guidance');
+ ENUM ('trash','play','sport','furniture','art','fixremove','trafficsign','guidance','markings');
 -- ddl-end --
 ALTER TYPE asm.equipmentgroup OWNER TO "asmAdmin";
 -- ddl-end --
@@ -345,7 +343,7 @@ ALTER TYPE asm.vegetationtype OWNER TO "asmAdmin";
 -- object: "Equipments".equipmentype | type: TYPE --
 -- DROP TYPE IF EXISTS "Equipments".equipmentype CASCADE;
 CREATE TYPE "Equipments".equipmentype AS
- ENUM ('billboard','digital','statue','graffiti','flagpole','sandbox','directionsign','fence','bank','wall','other');
+ ENUM ('billboard','digital','statue','graffiti','flagpole','sandbox','directionsign','fence','bank','wall','bench','slide','sandplay','playhouse','ballgame','bikestand','merrygoround','gym','balancing','christmastree');
 -- ddl-end --
 ALTER TYPE "Equipments".equipmentype OWNER TO "asmAdmin";
 -- ddl-end --
@@ -623,6 +621,7 @@ ALTER TABLE "Actors"."Owner" OWNER TO "asmAdmin";
 -- DROP TABLE IF EXISTS asm."Asset" CASCADE;
 CREATE TABLE asm."Asset"(
 	gid serial NOT NULL,
+	dataid smallint,
 	name varchar,
 	geom_poly geometry(MULTIPOLYGONZ, 3879),
 	geom_line geometry(MULTILINESTRINGZM, 3879),
@@ -647,6 +646,8 @@ CREATE TABLE asm."Asset"(
 	CONSTRAINT "AssetArea_pk" PRIMARY KEY (gid)
 
 );
+-- ddl-end --
+COMMENT ON COLUMN asm."Asset".dataid IS 'id that helps insert data when it is split into multiple tales';
 -- ddl-end --
 COMMENT ON COLUMN asm."Asset".address IS 'Street name, for parks entrance address';
 -- ddl-end --
@@ -1760,49 +1761,49 @@ WHERE
 ALTER MATERIALIZED VIEW "History"."TrafficSignDeleteReport" OWNER TO "asmAdmin";
 -- ddl-end --
 
--- object: grant_8bbc183540 | type: PERMISSION --
+-- object: grant_27f213776c | type: PERMISSION --
 GRANT CREATE,USAGE
    ON SCHEMA asm
    TO "asmUser";
 -- ddl-end --
 
--- object: grant_0813a82af5 | type: PERMISSION --
+-- object: grant_7d00dc1a29 | type: PERMISSION --
 GRANT CREATE,USAGE
    ON SCHEMA "Maintenance"
    TO "asmUser";
 -- ddl-end --
 
--- object: grant_abfab26ae2 | type: PERMISSION --
+-- object: grant_90613676cf | type: PERMISSION --
 GRANT CREATE,USAGE
    ON SCHEMA "History"
    TO "asmUser";
 -- ddl-end --
 
--- object: grant_5816bf6520 | type: PERMISSION --
+-- object: grant_51ba5c6772 | type: PERMISSION --
 GRANT CREATE,USAGE
    ON SCHEMA "Actors"
    TO "asmUser";
 -- ddl-end --
 
--- object: grant_6a27cd8526 | type: PERMISSION --
+-- object: grant_231e59a105 | type: PERMISSION --
 GRANT CREATE,USAGE
    ON SCHEMA "Management"
    TO "asmUser";
 -- ddl-end --
 
--- object: grant_3f20e8cd55 | type: PERMISSION --
+-- object: grant_a7f36d8c15 | type: PERMISSION --
 GRANT CREATE,USAGE
    ON SCHEMA "Media"
    TO "asmUser";
 -- ddl-end --
 
--- object: grant_d75818f759 | type: PERMISSION --
+-- object: grant_8f6c948e64 | type: PERMISSION --
 GRANT CREATE,USAGE
    ON SCHEMA "Reports"
    TO "asmUser";
 -- ddl-end --
 
--- object: grant_55cdb9f20e | type: PERMISSION --
+-- object: grant_8905e2dbc4 | type: PERMISSION --
 GRANT CREATE,USAGE
    ON SCHEMA "Equipments"
    TO "asmUser";
