@@ -1,4 +1,3 @@
-
 -- Database generated with pgModeler (PostgreSQL Database Modeler).
 -- pgModeler  version: 0.8.2
 -- PostgreSQL version: 9.5
@@ -17,12 +16,11 @@ CREATE ROLE "asmUser" WITH ;
 
 GRANT "asmAdmin" TO [youradmin];
 
-
 -- Database creation must be done outside an multicommand file.
 -- These commands were put in this file only for convenience.
--- -- object: "asm-2017-07-07" | type: DATABASE --
--- -- DROP DATABASE IF EXISTS "asm-2017-07-07";
--- CREATE DATABASE "asm-2017-07-07"
+-- -- object: "asm-2017-10-02" | type: DATABASE --
+-- -- DROP DATABASE IF EXISTS "asm-2017-10-02";
+-- CREATE DATABASE "asm-2017-10-02"
 -- 	OWNER = "asmAdmin"
 -- ;
 -- -- ddl-end --
@@ -102,7 +100,7 @@ ALTER TABLE asm."InfraCode2017" OWNER TO "asmAdmin";
 -- object: asm.equipmentgroup | type: TYPE --
 -- DROP TYPE IF EXISTS asm.equipmentgroup CASCADE;
 CREATE TYPE asm.equipmentgroup AS
- ENUM ('trash','play','sport','furniture','art','fixremove','trafficsign','guidance');
+ ENUM ('trash','play','sport','furniture','art','fixremove','trafficsign','guidance','markings');
 -- ddl-end --
 ALTER TYPE asm.equipmentgroup OWNER TO "asmAdmin";
 -- ddl-end --
@@ -118,7 +116,7 @@ ALTER TYPE asm."SurfaceMaterial" OWNER TO "asmAdmin";
 -- object: asm.infraparttype | type: TYPE --
 -- DROP TYPE IF EXISTS asm.infraparttype CASCADE;
 CREATE TYPE asm.infraparttype AS
- ENUM ('underpasstube','underpassrapidtransit','underpasspedestrian','underpassrailway');
+ ENUM ('trafficarea','greenspace','specialarea');
 -- ddl-end --
 ALTER TYPE asm.infraparttype OWNER TO "asmAdmin";
 -- ddl-end --
@@ -156,7 +154,7 @@ ALTER TABLE asm."RoadLayer" OWNER TO "asmAdmin";
 -- object: asm."assetStatus" | type: TYPE --
 -- DROP TYPE IF EXISTS asm."assetStatus" CASCADE;
 CREATE TYPE asm."assetStatus" AS
- ENUM ('planned','finished','removed');
+ ENUM ('finished','underconstruction','planned','removed','repaired');
 -- ddl-end --
 ALTER TYPE asm."assetStatus" OWNER TO "asmAdmin";
 -- ddl-end --
@@ -286,9 +284,9 @@ CREATE TABLE asm."InfraPart"(
 	type asm.infraparttype,
 	"functionalClass" smallint,
 	"roadClass" smallint,
-	"code_UseType" char(5),
 	"gid_Asset" integer,
 	"id_RoadMaintenanceDecision" integer,
+	"code_UseType" char(5),
 	CONSTRAINT "Surface_pk" PRIMARY KEY (gid)
 
 );
@@ -345,7 +343,7 @@ ALTER TYPE asm.vegetationtype OWNER TO "asmAdmin";
 -- object: "Equipments".equipmentype | type: TYPE --
 -- DROP TYPE IF EXISTS "Equipments".equipmentype CASCADE;
 CREATE TYPE "Equipments".equipmentype AS
- ENUM ('billboard','digital','statue','graffiti','flagpole','sandbox','directionsign','fence','bank','wall','other');
+ ENUM ('billboard','digital','statue','graffiti','flagpole','sandbox','directionsign','fence','bank','wall','bench','slide','sandplay','playhouse','ballgame','bikestand','merrygoround','gym','balancing','christmastree');
 -- ddl-end --
 ALTER TYPE "Equipments".equipmentype OWNER TO "asmAdmin";
 -- ddl-end --
@@ -410,6 +408,7 @@ ALTER TABLE "Actors"."Possessor" OWNER TO "asmAdmin";
 -- DROP TABLE IF EXISTS "Equipments"."Equipment" CASCADE;
 CREATE TABLE "Equipments"."Equipment"(
 	gid serial NOT NULL,
+	dataid bigint,
 	type "Equipments".equipmentype,
 	model varchar,
 	brand varchar,
@@ -422,6 +421,8 @@ CREATE TABLE "Equipments"."Equipment"(
 	CONSTRAINT "Furniture_pk" PRIMARY KEY (gid)
 
 );
+-- ddl-end --
+COMMENT ON COLUMN "Equipments"."Equipment".dataid IS 'id that helps insert data when it is split into multiple tables';
 -- ddl-end --
 ALTER TABLE "Equipments"."Equipment" OWNER TO "asmAdmin";
 -- ddl-end --
@@ -553,6 +554,7 @@ CREATE TABLE "Equipments"."UrbanRunoffEquipment"(
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
 -- 	material smallint,
+-- 	dataid bigint,
 -- 	"gid_Asset" integer,
 -- 	"gid_InfraPart" integer,
 	CONSTRAINT "UrbanRunoffEqupiment_pk" PRIMARY KEY (id)
@@ -586,6 +588,7 @@ CREATE TABLE "Equipments"."TrafficCalming"(
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
 -- 	material smallint,
+-- 	dataid bigint,
 -- 	"gid_Asset" integer,
 -- 	"gid_InfraPart" integer,
 	CONSTRAINT "TrafficCalming_pk" PRIMARY KEY (gid)
@@ -619,10 +622,19 @@ CREATE TABLE "Actors"."Owner"(
 ALTER TABLE "Actors"."Owner" OWNER TO "asmAdmin";
 -- ddl-end --
 
+-- object: asm.wintermaintenance | type: TYPE --
+-- DROP TYPE IF EXISTS asm.wintermaintenance CASCADE;
+CREATE TYPE asm.wintermaintenance AS
+ ENUM ('nowintermaintenance','entirelyonwintermaintenance','partlyonwintermaintenance');
+-- ddl-end --
+ALTER TYPE asm.wintermaintenance OWNER TO "asmAdmin";
+-- ddl-end --
+
 -- object: asm."Asset" | type: TABLE --
 -- DROP TABLE IF EXISTS asm."Asset" CASCADE;
 CREATE TABLE asm."Asset"(
 	gid serial NOT NULL,
+	dataid bigint,
 	name varchar,
 	geom_poly geometry(MULTIPOLYGONZ, 3879),
 	geom_line geometry(MULTILINESTRINGZM, 3879),
@@ -631,7 +643,7 @@ CREATE TABLE asm."Asset"(
 	address varchar,
 	"validFrom" date,
 	"validTo" date,
-	"winterMaintenance" bool,
+	"winterMaintenance" asm.wintermaintenance,
 	"addressNumber" varchar,
 	status asm."assetStatus",
 	note varchar,
@@ -648,6 +660,8 @@ CREATE TABLE asm."Asset"(
 
 );
 -- ddl-end --
+COMMENT ON COLUMN asm."Asset".dataid IS 'id that helps insert data when it is split into multiple tales';
+-- ddl-end --
 COMMENT ON COLUMN asm."Asset".address IS 'Street name, for parks entrance address';
 -- ddl-end --
 COMMENT ON COLUMN asm."Asset"."validFrom" IS 'The time when the phenomenon started to exist in the real world.';
@@ -657,18 +671,6 @@ COMMENT ON COLUMN asm."Asset"."validTo" IS 'The time from which the phenomenon n
 COMMENT ON COLUMN asm."Asset"."addressNumber" IS 'Street house number';
 -- ddl-end --
 ALTER TABLE asm."Asset" OWNER TO "asmAdmin";
--- ddl-end --
-
--- object: "Asset_fk" | type: CONSTRAINT --
--- ALTER TABLE asm."RoadLayer" DROP CONSTRAINT IF EXISTS "Asset_fk" CASCADE;
-ALTER TABLE asm."RoadLayer" ADD CONSTRAINT "Asset_fk" FOREIGN KEY ("gid_Asset")
-REFERENCES asm."Asset" (gid) MATCH FULL
-ON DELETE SET NULL ON UPDATE CASCADE;
--- ddl-end --
-
--- object: "RoadLayer_uq" | type: CONSTRAINT --
--- ALTER TABLE asm."RoadLayer" DROP CONSTRAINT IF EXISTS "RoadLayer_uq" CASCADE;
-ALTER TABLE asm."RoadLayer" ADD CONSTRAINT "RoadLayer_uq" UNIQUE ("gid_Asset");
 -- ddl-end --
 
 -- object: "Asset_fk" | type: CONSTRAINT --
@@ -727,6 +729,7 @@ CREATE TABLE "Equipments"."RoadSurfaceMarking"(
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
 -- 	material smallint,
+-- 	dataid bigint,
 -- 	"gid_Asset" integer,
 -- 	"gid_InfraPart" integer,
 	CONSTRAINT "RoadSurfaceMarking_pk" PRIMARY KEY (gid)
@@ -1060,6 +1063,7 @@ CREATE TABLE "Equipments"."Mounting"(
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
 -- 	material smallint,
+-- 	dataid bigint,
 -- 	"gid_Asset" integer,
 	CONSTRAINT "LightPole_pk" PRIMARY KEY (gid)
 
@@ -1137,6 +1141,7 @@ CREATE TABLE "Equipments"."StreetLight"(
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
 -- 	material smallint,
+-- 	dataid bigint,
 -- 	"gid_Asset" integer,
 -- 	"gid_InfraPart" integer,
 	CONSTRAINT "StreetLight_pk" PRIMARY KEY (gid)
@@ -1240,7 +1245,7 @@ ALTER TABLE "Maintenance"."MaintenanceArea" OWNER TO "asmAdmin";
 -- DROP TABLE IF EXISTS "Equipments"."TrafficSign" CASCADE;
 CREATE TABLE "Equipments"."TrafficSign"(
 	gid serial NOT NULL,
-	signtype smallint,
+	signtype varchar,
 	signtext varchar,
 	"viewingAngle" smallint,
 	"horizontalPlace" smallint,
@@ -1253,6 +1258,7 @@ CREATE TABLE "Equipments"."TrafficSign"(
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
 -- 	material smallint,
+-- 	dataid bigint,
 -- 	"gid_Asset" integer,
 -- 	"gid_InfraPart" integer,
 	CONSTRAINT "TrafficSign_pk" PRIMARY KEY (gid)
@@ -1332,6 +1338,7 @@ CREATE TABLE "Equipments"."PlayGroundEquipment"(
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
 -- 	material smallint,
+-- 	dataid bigint,
 -- 	"gid_Asset" integer,
 -- 	"gid_InfraPart" integer,
 
@@ -1371,6 +1378,7 @@ CREATE TABLE "Equipments"."Furniture"(
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
 -- 	material smallint,
+-- 	dataid bigint,
 -- 	"gid_Asset" integer,
 -- 	"gid_InfraPart" integer,
 
@@ -1391,6 +1399,7 @@ CREATE TABLE "Equipments"."Advertisement"(
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
 -- 	material smallint,
+-- 	dataid bigint,
 -- 	"gid_Asset" integer,
 -- 	"gid_InfraPart" integer,
 
@@ -1411,6 +1420,7 @@ CREATE TABLE "Equipments"."Art"(
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
 -- 	material smallint,
+-- 	dataid bigint,
 -- 	"gid_Asset" integer,
 -- 	"gid_InfraPart" integer,
 
@@ -1431,6 +1441,7 @@ CREATE TABLE "Equipments"."Crossing"(
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
 -- 	material smallint,
+-- 	dataid bigint,
 -- 	"gid_Asset" integer,
 -- 	"gid_InfraPart" integer,
 	CONSTRAINT "Crossing_pk" PRIMARY KEY (gid)
@@ -1452,6 +1463,7 @@ CREATE TABLE "Equipments"."Structure"(
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
 -- 	material smallint,
+-- 	dataid bigint,
 -- 	"gid_Asset" integer,
 -- 	"gid_InfraPart" integer,
 
@@ -1472,6 +1484,7 @@ CREATE TABLE "Equipments"."TrashEquipment"(
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
 -- 	material smallint,
+-- 	dataid bigint,
 -- 	"gid_Asset" integer,
 -- 	"gid_InfraPart" integer,
 
@@ -1516,6 +1529,7 @@ CREATE TABLE "Equipments"."StreetSign"(
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
 -- 	material smallint,
+-- 	dataid bigint,
 -- 	"gid_Asset" integer,
 -- 	"gid_InfraPart" integer,
 	CONSTRAINT "StreetSign_pk" PRIMARY KEY (gid)
@@ -1537,6 +1551,7 @@ CREATE TABLE "Equipments"."Fence"(
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
 -- 	material smallint,
+-- 	dataid bigint,
 -- 	"gid_Asset" integer,
 -- 	"gid_InfraPart" integer,
 
@@ -1569,6 +1584,7 @@ CREATE TABLE "Equipments"."StreetLightConductor"(
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
 -- 	material smallint,
+-- 	dataid bigint,
 -- 	"gid_Asset" integer,
 -- 	"gid_InfraPart" integer,
 
@@ -1589,6 +1605,7 @@ CREATE TABLE "Equipments"."StreetLightStation"(
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
 -- 	material smallint,
+-- 	dataid bigint,
 -- 	"gid_Asset" integer,
 -- 	"gid_InfraPart" integer,
 
@@ -1609,6 +1626,7 @@ CREATE TABLE "Equipments"."NoiseBarrier"(
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
 -- 	material smallint,
+-- 	dataid bigint,
 -- 	"gid_Asset" integer,
 -- 	"gid_InfraPart" integer,
 
@@ -1665,6 +1683,7 @@ CREATE TABLE "Equipments"."TrafficLight"(
 -- 	"installDate" date,
 -- 	installer "Actors"."Maintainer",
 -- 	material smallint,
+-- 	dataid bigint,
 -- 	"gid_Asset" integer,
 -- 	"gid_InfraPart" integer,
 
@@ -1760,49 +1779,61 @@ WHERE
 ALTER MATERIALIZED VIEW "History"."TrafficSignDeleteReport" OWNER TO "asmAdmin";
 -- ddl-end --
 
--- object: grant_8bbc183540 | type: PERMISSION --
+-- object: "Asset_fk" | type: CONSTRAINT --
+-- ALTER TABLE asm."RoadLayer" DROP CONSTRAINT IF EXISTS "Asset_fk" CASCADE;
+ALTER TABLE asm."RoadLayer" ADD CONSTRAINT "Asset_fk" FOREIGN KEY ("gid_Asset")
+REFERENCES asm."Asset" (gid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: "RoadLayer_uq" | type: CONSTRAINT --
+-- ALTER TABLE asm."RoadLayer" DROP CONSTRAINT IF EXISTS "RoadLayer_uq" CASCADE;
+ALTER TABLE asm."RoadLayer" ADD CONSTRAINT "RoadLayer_uq" UNIQUE ("gid_Asset");
+-- ddl-end --
+
+-- object: grant_4f39e0b370 | type: PERMISSION --
 GRANT CREATE,USAGE
    ON SCHEMA asm
    TO "asmUser";
 -- ddl-end --
 
--- object: grant_0813a82af5 | type: PERMISSION --
+-- object: grant_63c4512c39 | type: PERMISSION --
 GRANT CREATE,USAGE
    ON SCHEMA "Maintenance"
    TO "asmUser";
 -- ddl-end --
 
--- object: grant_abfab26ae2 | type: PERMISSION --
+-- object: grant_84180d10f7 | type: PERMISSION --
 GRANT CREATE,USAGE
    ON SCHEMA "History"
    TO "asmUser";
 -- ddl-end --
 
--- object: grant_5816bf6520 | type: PERMISSION --
+-- object: grant_7e580ecc39 | type: PERMISSION --
 GRANT CREATE,USAGE
    ON SCHEMA "Actors"
    TO "asmUser";
 -- ddl-end --
 
--- object: grant_6a27cd8526 | type: PERMISSION --
+-- object: grant_31ad017386 | type: PERMISSION --
 GRANT CREATE,USAGE
    ON SCHEMA "Management"
    TO "asmUser";
 -- ddl-end --
 
--- object: grant_3f20e8cd55 | type: PERMISSION --
+-- object: grant_872bd6a157 | type: PERMISSION --
 GRANT CREATE,USAGE
    ON SCHEMA "Media"
    TO "asmUser";
 -- ddl-end --
 
--- object: grant_d75818f759 | type: PERMISSION --
+-- object: grant_9bded7421a | type: PERMISSION --
 GRANT CREATE,USAGE
    ON SCHEMA "Reports"
    TO "asmUser";
 -- ddl-end --
 
--- object: grant_55cdb9f20e | type: PERMISSION --
+-- object: grant_3749215cf4 | type: PERMISSION --
 GRANT CREATE,USAGE
    ON SCHEMA "Equipments"
    TO "asmUser";
